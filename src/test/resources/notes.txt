@@ -3,5 +3,9 @@ run this command
 
 mvn clean -D"cucumber.options"="--tags @youtube" -D"buildrunner"="YoutubeRunner.java" test
 
+or
+
+mvn clean -D"cucumber.options"="--tags @youtube" -D"buildrunner"="YoutubeRunner.java" verify
+
 
 also check for @BeforeSuite class in YoutubeRunner.java
