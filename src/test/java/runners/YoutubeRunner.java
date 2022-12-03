@@ -14,7 +14,7 @@ import java.io.*;
         plugin = {"pretty"},
         monochrome = true,
         features = "src/test/resources/Youtube",
-        tags = "@youtube")
+        tags = "@youtube1")
 public class YoutubeRunner extends AbstractTestNGCucumberTests {
 
 
