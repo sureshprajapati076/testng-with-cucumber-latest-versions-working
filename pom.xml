@@ -46,6 +46,7 @@
                 <version>3.7.0</version>
 
             </plugin>
+
             <plugin>
               <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
 
@@ -63,6 +64,13 @@
                     <parallel>methods</parallel>
                     <threadCount>2</threadCount>
                     <perCoreThreadCount>true</perCoreThreadCount>
+                    <properties>
+                        <property>
+                            <name>dataproviderthreadcount</name>    <!-- This property value will limit/control thread count for command line
+                            Note that @DataProvider should be made parallel in YOutubeRunner.java as well without this parallel does not work.... -->
+                            <value>2</value>
+                        </property>
+                    </properties>
                 </configuration>
 
 
