@@ -5,6 +5,8 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
@@ -12,6 +14,8 @@ public class YoutubeSteps {
 
 
     WebDriver webDriver=null;
+
+    SoftAssert softAssert = new SoftAssert();
 
     @Before
     public void setupDriver(){
@@ -28,6 +32,12 @@ public class YoutubeSteps {
     public void user_is_in_youtube_homepage(String string) {
         // Write code here that turns the phrase above into concrete actions
 
+        Assert.assertEquals(string,"https://youtube.com","URL is not Youtube related");
+
+        softAssert.assertEquals(string,"https://youtube.com1","did not match url");
+
+        //softAssert.assertAll();
+
     }
 
     @When("User enters text {string} in search box")
@@ -40,6 +50,8 @@ public class YoutubeSteps {
     public void user_Click_search_Button() {
         // Write code here that turns the phrase above into concrete actions
 
+        softAssert.assertTrue(false,"forced failing case");
+
     }
 
     @Then("Verify user sees results")
@@ -51,6 +63,7 @@ public class YoutubeSteps {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        softAssert.assertAll();
 
     }
 
