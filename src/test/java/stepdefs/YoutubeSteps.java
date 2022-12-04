@@ -1,12 +1,14 @@
 package stepdefs;
 
-
+import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
+import utils.PropertiesReaderUtils;
 
 import java.time.Duration;
 
@@ -36,6 +38,8 @@ public class YoutubeSteps {
 
         softAssert.assertEquals(string,"https://youtube.com1","did not match url");
 
+
+
         //softAssert.assertAll();
 
     }
@@ -43,6 +47,9 @@ public class YoutubeSteps {
     @When("User enters text {string} in search box")
     public void user_enters_text_in_search_box(String string) {
         // Write code here that turns the phrase above into concrete actions
+
+        System.out.println(PropertiesReaderUtils.getFieldValue("dataproviderfile"));
+        System.out.println(PropertiesReaderUtils.getFieldValue("dataproviderlocation"));
 
     }
 
@@ -65,6 +72,12 @@ public class YoutubeSteps {
         }
         softAssert.assertAll();
 
+    }
+
+    @AfterStep
+    public void afterStep(Scenario scenario){
+        System.out.println(scenario.getSourceTagNames());
+        System.out.println("CURRENT THREAD: "+Thread.currentThread().getId());
     }
 
 
