@@ -7,7 +7,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import utils.ExcelReaderUtils;
-
+import utils.ScenarioDTO;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,8 +18,6 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,77 +28,110 @@ import java.util.stream.Collectors;
 public class BaseRunner extends AbstractTestNGCucumberTests {
     String featureFolder;
 
-    public BaseRunner(String featureFolderPath){
-        this.featureFolder=featureFolderPath;
+    public BaseRunner(String featureFolderPath) {
+        this.featureFolder = featureFolderPath;
     }
 
     @BeforeSuite
     public void beforeSuite(ITestContext itc) {
         String cukeTags = itc.getSuite().getAllMethods().listIterator().next().getTestClass().getRealClass().getAnnotation(CucumberOptions.class).tags();
-        List<String> cTags = Arrays.asList(cukeTags.split(" ")).stream().filter(tag->tag.trim().startsWith("@")).collect(Collectors.toList());
-        List<File> listOfFiles= getAllFeatureFiles(featureFolder);
-            listOfFiles.forEach(file -> {
-            overrideFeatureFiles(file,cTags);
+        List<String> cTags = Arrays.asList(cukeTags.split(" ")).stream().filter(tag -> tag.trim().startsWith("@")).collect(Collectors.toList());
+        List<File> listOfFiles = getAllFeatureFiles(featureFolder);
+        listOfFiles.forEach(file -> {
+            overrideFeatureFiles(file, cTags);
         });
     }
 
     private List<File> getAllFeatureFiles(String featureFolder) {
-        Collection<File> filesList= FileUtils.listFiles(new File(featureFolder), new String[]{"feature"},true);
-        return  new ArrayList<>(filesList);
+        Collection<File> filesList = FileUtils.listFiles(new File(featureFolder), new String[]{"feature"}, true);
+        return new ArrayList<>(filesList);
     }
 
-    private void overrideFeatureFiles(File file, List<String> cukeTags)   {
+    private void overrideFeatureFiles(File file, List<String> cukeTags) {
 
         List<String> linesOfFeature;
+        List<ScenarioDTO> scenarioDTOList = new ArrayList<>();
         try {
             linesOfFeature = Files.readAllLines(Path.of(file.getPath()));
-            boolean cukeTagFound=false;
-            boolean hashTagFound=false;
-            for(String featureFileLine: linesOfFeature) {
-                for (String cukeTag : cukeTags) {
-                    if (featureFileLine.contains(cukeTag))  cukeTagFound = true;
-                    if (featureFileLine.trim().startsWith("#@#@")) hashTagFound = true;
-                    if(cukeTagFound && hashTagFound) break;
+
+            ScenarioDTO currentScenarioDto = new ScenarioDTO();
+            for (int i = 0; i < linesOfFeature.size(); i++) {
+                String currentLine = linesOfFeature.get(i);
+                if (currentLine.trim().startsWith("@") || i == linesOfFeature.size()) {
+                    scenarioDTOList.add(currentScenarioDto);
+                    currentScenarioDto = new ScenarioDTO();
+                    currentScenarioDto.addLine(currentLine);
+                } else {
+                    currentScenarioDto.addLine(currentLine);
                 }
             }
-            if(!(cukeTagFound && hashTagFound)) return;
+            scenarioDTOList.add(currentScenarioDto);
+
+            for (ScenarioDTO currentScenarioDTO : scenarioDTOList) {
+                for (String currentScenarioLine : currentScenarioDTO.getCurrentScenario()) {
+                    for (String cukeTag : cukeTags) {
+                        if (Arrays.asList(currentScenarioLine.split(" ")).contains(cukeTag))
+                            currentScenarioDTO.setCukeTagFound(true);
+                        if (currentScenarioLine.trim().startsWith("#@#@")) currentScenarioDTO.setHashTagFound(true);
+                    }
+                }
+            }
+
+
+            long hashTagCukeTagFound = scenarioDTOList.stream().skip(1).filter(scenario -> scenario.isCukeTagFound() && scenario.isHashTagFound()).count();
+
+
+            if (hashTagCukeTagFound == 0) return;
+
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         try {
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
-            String scenarioName="";
-            List<String> exampleFields=new ArrayList<>();
-            boolean hashTagFound=false;
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+            String scenarioName = "";
+            List<String> exampleFields = new ArrayList<>();
+            boolean hashTagFound = false;
 
-            for(String line : linesOfFeature){
+            for (ScenarioDTO scenarioDTO : scenarioDTOList) {
 
-                if(line.trim().startsWith("Scenario")){ scenarioName= line.substring(line.indexOf(":")+1).trim(); hashTagFound=false;}
+                if (!scenarioDTO.isHashTagFound() || !scenarioDTO.isCukeTagFound()) {
+                    for (String line : scenarioDTO.getCurrentScenario()) writer.write(line + "\n");
+                    continue;
 
-                if(line.trim().startsWith("|") && line.trim().endsWith("|")) {
-                    exampleFields=Arrays.asList(line.trim().split("\\|"));
                 }
 
-                if(line.trim().startsWith("#@#@")){
-                    hashTagFound=true;
-                    writer.write(line+"\n");
-                    List<Map<String,String>> excelDataFromSheet = ExcelReaderUtils.readSheet(line.trim().substring(4));
+                for (String line : scenarioDTO.getCurrentScenario()) {
+                    if (line.trim().startsWith("Scenario")) {
+                        scenarioName = line.substring(line.indexOf(":") + 1).trim();
+                        hashTagFound = false;
+                    }
 
-                    for(Map<String,String> myMap : excelDataFromSheet){
-                        if(myMap.get("Scenario").equals(scenarioName)){
-                            String fromExcelData="|";
-                            for(String field: exampleFields){
-                                if(!field.trim().isBlank())
-                                     fromExcelData+=myMap.get(field.trim()).trim()+"|";
+                    if (line.trim().startsWith("|") && line.trim().endsWith("|")) {
+                        exampleFields = Arrays.asList(line.trim().split("\\|"));
+                    }
+
+                    if (line.trim().startsWith("#@#@")) {
+                        hashTagFound = true;
+                        writer.write(line + "\n");
+                        List<Map<String, String>> excelDataFromSheet = ExcelReaderUtils.readSheet(line.trim().substring(4));
+
+                        for (Map<String, String> myMap : excelDataFromSheet) {
+                            if (myMap.get("Scenario").equals(scenarioName)) {
+                                String fromExcelData = "|";
+                                for (String field : exampleFields) {
+                                    if (!field.trim().isBlank())
+                                        fromExcelData += myMap.get(field.trim()).trim() + "|";
+                                }
+                                writer.write("      " + fromExcelData + "\n");
                             }
-                            writer.write("      "+fromExcelData+"\n");
                         }
                     }
+                    if (!(hashTagFound && line.trim().startsWith("|") && line.trim().endsWith("|")) && !line.trim().startsWith("#@#@"))
+                        writer.write(line + "\n");
                 }
-                if(!(hashTagFound && line.trim().startsWith("|") && line.trim().endsWith("|")) && !line.trim().startsWith("#@#@"))
-                    writer.write(line + "\n");
+
             }
             writer.close();
         } catch (UnsupportedEncodingException e) {
