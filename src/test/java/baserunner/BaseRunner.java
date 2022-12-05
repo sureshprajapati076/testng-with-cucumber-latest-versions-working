@@ -66,7 +66,7 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
                                 if(!field.trim().isBlank())
                                      fromExcelData+=myMap.get(field.trim()).trim()+"|";
                             }
-                            writer.write(fromExcelData+"\n");
+                            writer.write("      "+fromExcelData+"\n");
                         }
                     }
                 }
