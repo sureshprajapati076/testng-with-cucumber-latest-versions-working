@@ -55,15 +55,15 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
         try {
             linesOfFeature = Files.readAllLines(Path.of(file.getPath()));
             boolean cukeTagFound=false;
+            boolean hashTagFound=false;
             for(String featureFileLine: linesOfFeature) {
                 for (String cukeTag : cukeTags) {
-                    if (featureFileLine.contains(cukeTag)) {
-                        cukeTagFound = true;
-                        break;
-                    }
+                    if (featureFileLine.contains(cukeTag))  cukeTagFound = true;
+                    if (featureFileLine.trim().startsWith("#@#@")) hashTagFound = true;
+                    if(cukeTagFound && hashTagFound) break;
                 }
             }
-            if(!cukeTagFound) return;
+            if(!(cukeTagFound && hashTagFound)) return;
 
         } catch (IOException e) {
             throw new RuntimeException(e);
