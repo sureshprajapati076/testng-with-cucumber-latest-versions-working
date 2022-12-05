@@ -23,10 +23,10 @@ public class YoutubeSteps {
     public void setupDriver(){
 
      //   System.setProperty("webdriver.chrome.driver","C:/Users/sures/Documents/chromedriver.exe");
-        webDriver = new ChromeDriver();
-        webDriver.manage().window().maximize();
-        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
-        webDriver.get("https://youtube.com");
+//        webDriver = new ChromeDriver();
+//        webDriver.manage().window().maximize();
+//        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
+       // webDriver.get("https://youtube.com");
 
     }
 
@@ -34,9 +34,9 @@ public class YoutubeSteps {
     public void user_is_in_youtube_homepage(String string) {
         // Write code here that turns the phrase above into concrete actions
 
-        Assert.assertEquals(string,"https://youtube.com","URL is not Youtube related");
+      //  Assert.assertEquals(string,"https://youtube.com","URL is not Youtube related");
 
-        softAssert.assertEquals(string,"https://youtube.com1","did not match url");
+     //   softAssert.assertEquals(string,"https://youtube.com1","did not match url");
 
 
 
@@ -64,13 +64,13 @@ public class YoutubeSteps {
     @Then("Verify user sees results")
     public void verify_user_sees_results() {
         // Write code here that turns the phrase above into concrete actions
-        webDriver.quit();
+    //    webDriver.quit();
         try {
-            Thread.sleep(3000);
+            Thread.sleep(10);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        softAssert.assertAll();
+     //   softAssert.assertAll();
 
     }
 

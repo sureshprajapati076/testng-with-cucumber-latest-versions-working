@@ -36,6 +36,8 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
         List<String> linesOfFeature;
         try {
             linesOfFeature = Files.readAllLines(Path.of(file.getPath()));
+            if(linesOfFeature.get(linesOfFeature.size()-1).equals(""))
+                linesOfFeature.add("");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -69,23 +71,18 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
                     }
                     String nextLine="";
                     do{
+                        if(i==linesOfFeature.size()) break;
                         if(i<linesOfFeature.size()-1)
                             nextLine = linesOfFeature.get(++i);
                         else
                             break;
                     }while(nextLine.trim().startsWith("|"));
+                    if(i<linesOfFeature.size()-1) i--;
 
                 }
                 if(!line.trim().startsWith("#@#@"))
                     writer.write(line+"\n");
             }
-
-
-
-
-
-
-
             writer.close();
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
