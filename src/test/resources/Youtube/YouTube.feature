@@ -10,7 +10,6 @@ Feature: YouTube Feature Dec 2022
     Examples:
       | homepage | searchText |
       #@#@GOLD
-|https://youtube.com|Electronics|
 #|https://youtube.com|Electronics|
 
   @youtube
@@ -35,5 +34,4 @@ Feature: YouTube Feature Dec 2022
     Examples:
       | homepage | searchText |
       #@#@GOLD
-|https://youtube.com|Automation|
-|https://youtube.com|lastRow|
+#|https://youtube.com|Automation|

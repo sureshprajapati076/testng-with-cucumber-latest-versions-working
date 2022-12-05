@@ -36,8 +36,6 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
         List<String> linesOfFeature;
         try {
             linesOfFeature = Files.readAllLines(Path.of(file.getPath()));
-            if(linesOfFeature.get(linesOfFeature.size()-1).equals(""))
-                linesOfFeature.add("");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -46,16 +44,18 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
             String scenarioName="";
             List<String> exampleFields=new ArrayList<>();
+            boolean hashTagFound=false;
 
             for(int i=0;i<linesOfFeature.size();i++){
                 String line=linesOfFeature.get(i);
-                if(line.trim().startsWith("Scenario")) scenarioName= line.substring(line.indexOf(":")+1).trim();
+                if(line.trim().startsWith("Scenario")){ scenarioName= line.substring(line.indexOf(":")+1).trim(); hashTagFound=false;}
 
                 if(line.trim().startsWith("|") && line.trim().endsWith("|")) {
                     exampleFields=Arrays.asList(line.trim().split("\\|"));
                 }
 
                 if(line.trim().startsWith("#@#@")){
+                    hashTagFound=true;
                     writer.write(line+"\n");
                     List<Map<String,String>> excelDataFromSheet1 = ExcelReaderUtils.readSheet(line.trim().substring(4));
 
@@ -69,19 +69,9 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
                             writer.write(fromExcelData+"\n");
                         }
                     }
-                    String nextLine="";
-                    do{
-                        if(i==linesOfFeature.size()) break;
-                        if(i<linesOfFeature.size()-1)
-                            nextLine = linesOfFeature.get(++i);
-                        else
-                            break;
-                    }while(nextLine.trim().startsWith("|"));
-                    if(i<linesOfFeature.size()-1) i--;
-
                 }
-                if(!line.trim().startsWith("#@#@"))
-                    writer.write(line+"\n");
+                if(!(hashTagFound && line.trim().startsWith("|") && line.trim().endsWith("|")) && !line.trim().startsWith("#@#@"))
+                    writer.write(line + "\n");
             }
             writer.close();
         } catch (UnsupportedEncodingException e) {
