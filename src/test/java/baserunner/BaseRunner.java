@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class BaseRunner extends AbstractTestNGCucumberTests {
@@ -51,6 +52,8 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
 
         List<String> linesOfFeature;
         List<ScenarioDTO> scenarioDTOList = new ArrayList<>();
+        Predicate<ScenarioDTO> cukeTagFilterPredicate = ScenarioDTO::isCukeTagFound;
+        Predicate<ScenarioDTO> hashTagFilterPredicate = ScenarioDTO::isHashTagFound;
         try {
             linesOfFeature = Files.readAllLines(Path.of(file.getPath()));
 
@@ -77,9 +80,7 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
                 }
             }
 
-
-            long hashTagCukeTagFound = scenarioDTOList.stream().skip(1).filter(scenario -> scenario.isCukeTagFound() && scenario.isHashTagFound()).count();
-
+            long hashTagCukeTagFound = scenarioDTOList.stream().skip(1).filter(cukeTagFilterPredicate.and(hashTagFilterPredicate)).count();
 
             if (hashTagCukeTagFound == 0) return;
 
