@@ -1,15 +1,31 @@
 package baserunner;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.cucumber.testng.CucumberOptions;
 import org.apache.commons.io.FileUtils;
+import org.testng.ITestContext;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import utils.ExcelReaderUtils;
 
-import java.io.*;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BaseRunner extends AbstractTestNGCucumberTests {
     String featureFolder;
@@ -19,10 +35,12 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
     }
 
     @BeforeSuite
-    public void beforeSuite() {
+    public void beforeSuite(ITestContext itc) {
+        String cukeTags = itc.getSuite().getAllMethods().listIterator().next().getTestClass().getRealClass().getAnnotation(CucumberOptions.class).tags();
+        List<String> cTags = Arrays.asList(cukeTags.split(" ")).stream().filter(tag->tag.trim().startsWith("@")).collect(Collectors.toList());
         List<File> listOfFiles= getAllFeatureFiles(featureFolder);
             listOfFiles.forEach(file -> {
-            overrideFeatureFiles(file);
+            overrideFeatureFiles(file,cTags);
         });
     }
 
@@ -31,11 +49,22 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
         return  new ArrayList<>(filesList);
     }
 
-    private void overrideFeatureFiles(File file)   {
+    private void overrideFeatureFiles(File file, List<String> cukeTags)   {
 
         List<String> linesOfFeature;
         try {
             linesOfFeature = Files.readAllLines(Path.of(file.getPath()));
+            boolean cukeTagFound=false;
+            for(String featureFileLine: linesOfFeature) {
+                for (String cukeTag : cukeTags) {
+                    if (featureFileLine.contains(cukeTag)) {
+                        cukeTagFound = true;
+                        break;
+                    }
+                }
+            }
+            if(!cukeTagFound) return;
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
