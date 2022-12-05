@@ -46,8 +46,8 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
             List<String> exampleFields=new ArrayList<>();
             boolean hashTagFound=false;
 
-            for(int i=0;i<linesOfFeature.size();i++){
-                String line=linesOfFeature.get(i);
+            for(String line : linesOfFeature){
+
                 if(line.trim().startsWith("Scenario")){ scenarioName= line.substring(line.indexOf(":")+1).trim(); hashTagFound=false;}
 
                 if(line.trim().startsWith("|") && line.trim().endsWith("|")) {
@@ -57,9 +57,9 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
                 if(line.trim().startsWith("#@#@")){
                     hashTagFound=true;
                     writer.write(line+"\n");
-                    List<Map<String,String>> excelDataFromSheet1 = ExcelReaderUtils.readSheet(line.trim().substring(4));
+                    List<Map<String,String>> excelDataFromSheet = ExcelReaderUtils.readSheet(line.trim().substring(4));
 
-                    for(Map<String,String> myMap : excelDataFromSheet1){
+                    for(Map<String,String> myMap : excelDataFromSheet){
                         if(myMap.get("Scenario").equals(scenarioName)){
                             String fromExcelData="|";
                             for(String field: exampleFields){
