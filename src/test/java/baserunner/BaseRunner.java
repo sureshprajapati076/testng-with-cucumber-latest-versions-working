@@ -60,7 +60,7 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
             ScenarioDTO currentScenarioDto = new ScenarioDTO();
             for (int i = 0; i < linesOfFeature.size(); i++) {
                 String currentLine = linesOfFeature.get(i);
-                if (currentLine.trim().startsWith("@") || i == linesOfFeature.size()) {
+                if (currentLine.trim().startsWith("@")) {
                     scenarioDTOList.add(currentScenarioDto);
                     currentScenarioDto = new ScenarioDTO();
                     currentScenarioDto.addLine(currentLine);

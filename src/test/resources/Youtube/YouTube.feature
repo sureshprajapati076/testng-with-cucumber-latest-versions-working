@@ -1,6 +1,6 @@
 Feature: YouTube Feature Dec 2022
 
-  @youtube
+  @youtube91
   Scenario Outline: Search text Automation in youtube Ditital
     Given User is in youtube "<homepage>" homepage
     When User enters text "<searchText>" in search box
@@ -10,6 +10,7 @@ Feature: YouTube Feature Dec 2022
     Examples:
       | homepage | searchText |
       #@#@GOLD
+      |https://youtube.com|Electronics|
 #|https://youtube.com|Electronics|
 
   @youtube
@@ -24,7 +25,7 @@ Feature: YouTube Feature Dec 2022
       #@#@GOLD
 |https://youtube.com|Electronics|
 
-  @youtube
+  @youtube90
   Scenario Outline: Search text Automation in youtube
     Given User is in youtube "<homepage>" homepage
     When User enters text "<searchText>" in search box
@@ -34,4 +35,6 @@ Feature: YouTube Feature Dec 2022
     Examples:
       | homepage | searchText |
       #@#@GOLD
+      |https://youtube.com|Automation|
+      |https://youtube.com|lastRow|
 #|https://youtube.com|Automation|
