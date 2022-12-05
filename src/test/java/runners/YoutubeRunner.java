@@ -2,6 +2,7 @@ package runners;
 
 
 
+import baserunner.BaseRunner;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 import org.testng.annotations.BeforeSuite;
@@ -15,53 +16,9 @@ import java.io.*;
         monochrome = true,
         features = "src/test/resources/Youtube",
         tags = "@youtube")
-public class YoutubeRunner extends AbstractTestNGCucumberTests {
+public class YoutubeRunner extends BaseRunner {
 
-
-
-    @BeforeSuite
-    public void beforeSuite() throws IOException {
-        System.out.println("BEFORE SUITE EXECUTED!");
-        System.out.println("HI");
-/*
-        File featureFile= new File("src/test/resources/Youtube/YouTube.feature");
-        BufferedWriter writer = null;
-        writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(featureFile),"UTF-8"));
-
-        writer.write("Feature: YouTube Feature Dec 2022\n" +
-                "\n" +
-                "  @youtube\n" +
-                "  Scenario Outline: Search text Automation in youtube\n" +
-                "    Given User is in youtube \"<homepage>\" homepage\n" +
-                "    When User enters text \"<searchText>\" in search box\n" +
-                "    And User Click search Button\n" +
-                "    Then Verify user sees results\n" +
-                "\n" +
-                "    Examples:\n" +
-                "      |homepage|searchText|\n" +
-                "      |https://youtube.com|Electronics|\n" +
-                "\n" +
-                "\n" +
-                "  @youtube\n" +
-                "  Scenario Outline: Search text Automation in youtube Ditital\n" +
-                "    Given User is in youtube \"<homepage>\" homepage\n" +
-                "    When User enters text \"<searchText>\" in search box\n" +
-                "    And User Click search Button\n" +
-                "    Then Verify user sees results\n" +
-                "\n" +
-                "    Examples:\n" +
-                "      | homepage            | searchText |\n" +
-                "      | https://youtube.com | Digital    |");
-
-        writer.close();
-
- */
+    YoutubeRunner(){
+        super("src/test/resources/Youtube");
     }
-
-    @Override
-    @DataProvider(parallel = true)
-    public Object[][] scenarios() {
-        return super.scenarios();
-    }
-
 }
