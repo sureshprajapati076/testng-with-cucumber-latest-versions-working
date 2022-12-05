@@ -8,10 +8,10 @@ Feature: YouTube Feature Dec 2022
     Then Verify user sees results
 
     Examples:
-      | homepage            | searchText  |
+      | homepage            | searchText |
       #@#@GOLD
-      | https://youtube.com | Electronics |
-
+      | https://youtube.com | Automation |
+      | https://youtube.com | lastRow    |
 
   @youtube
   Scenario Outline: Search text Automation in youtube Ditital
@@ -21,5 +21,6 @@ Feature: YouTube Feature Dec 2022
     Then Verify user sees results
 
     Examples:
-      | homepage            | searchText |
-      | https://youtube.com | Digital    |
+      | homepage            | searchText  |
+      #@#@GOLD
+      | https://youtube.com | Electronics |

@@ -36,8 +36,6 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
         List<String> linesOfFeature;
         try {
             linesOfFeature = Files.readAllLines(Path.of(file.getPath()));
-            if(!linesOfFeature.get(linesOfFeature.size()-1).equals("#EOF#"))
-                linesOfFeature.add("#EOF#");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -69,10 +67,13 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
                             writer.write(fromExcelData+"\n");
                         }
                     }
-                    String nextLine;
+                    String nextLine="";
                     do{
-                        nextLine = linesOfFeature.get(++i);
-                    }while(nextLine.trim().startsWith("|") || nextLine.equals("#EOF#"));
+                        if(i<linesOfFeature.size()-1)
+                            nextLine = linesOfFeature.get(++i);
+                        else
+                            break;
+                    }while(nextLine.trim().startsWith("|"));
 
                 }
                 if(!line.trim().startsWith("#@#@"))
