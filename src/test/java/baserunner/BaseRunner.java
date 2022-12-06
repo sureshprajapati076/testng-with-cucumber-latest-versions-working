@@ -2,6 +2,7 @@ package baserunner;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
+import io.netty.handler.codec.string.LineSeparator;
 import org.apache.commons.io.FileUtils;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeSuite;
@@ -54,6 +55,7 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
         List<ScenarioDTO> scenarioDTOList = new ArrayList<>();
         Predicate<ScenarioDTO> cukeTagFilterPredicate = ScenarioDTO::isCukeTagFound;
         Predicate<ScenarioDTO> hashTagFilterPredicate = ScenarioDTO::isHashTagFound;
+        String endLine=System.lineSeparator();
         try {
             linesOfFeature = Files.readAllLines(Path.of(file.getPath()));
 
@@ -91,6 +93,7 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
 
         try {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+            StringBuilder sb= new StringBuilder();
             String scenarioName = "";
             List<String> exampleFields = new ArrayList<>();
             boolean hashTagFound = false;
@@ -98,7 +101,7 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
             for (ScenarioDTO scenarioDTO : scenarioDTOList) {
 
                 if (!scenarioDTO.isHashTagFound() || !scenarioDTO.isCukeTagFound()) {
-                    for (String line : scenarioDTO.getCurrentScenario()) writer.write(line + "\n");
+                    for (String line : scenarioDTO.getCurrentScenario()) sb.append(line).append(endLine);
                     continue;
 
                 }
@@ -115,7 +118,7 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
 
                     if (line.trim().startsWith("#@#@")) {
                         hashTagFound = true;
-                        writer.write(line + "\n");
+                        sb.append(line).append(endLine);
                         List<Map<String, String>> excelDataFromSheet = ExcelReaderUtils.readSheet(line.trim().substring(4));
 
                         for (Map<String, String> myMap : excelDataFromSheet) {
@@ -125,15 +128,18 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
                                     if (!field.trim().isBlank())
                                         fromExcelData += myMap.get(field.trim()).trim() + "|";
                                 }
-                                writer.write("      " + fromExcelData + "\n");
+                                sb.append("      ").append(fromExcelData).append(endLine);
                             }
                         }
                     }
                     if (!(hashTagFound && line.trim().startsWith("|") && line.trim().endsWith("|")) && !line.trim().startsWith("#@#@"))
-                        writer.write(line + "\n");
+                        sb.append(line).append(endLine);
                 }
 
             }
+            int last = sb.lastIndexOf(endLine);
+            if (last >= 0)  sb.delete(last, sb.length());
+            writer.write(sb.toString());
             writer.close();
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
