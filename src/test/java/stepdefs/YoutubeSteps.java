@@ -4,13 +4,20 @@ import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.*;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import utils.PropertiesReaderUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class YoutubeSteps {
 
@@ -22,11 +29,24 @@ public class YoutubeSteps {
     @Before
     public void setupDriver(){
 
-     //   System.setProperty("webdriver.chrome.driver","C:/Users/sures/Documents/chromedriver.exe");
-//        webDriver = new ChromeDriver();
-//        webDriver.manage().window().maximize();
-//        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
-       // webDriver.get("https://youtube.com");
+      //  System.setProperty("webdriver.chrome.driver","C:/Users/sures/Documents/chromedriver.exe");
+
+        ChromeOptions options= new ChromeOptions();
+        options.setHeadless(true);
+        webDriver = new ChromeDriver(options);
+        webDriver.manage().window().maximize();
+        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
+        webDriver.get("https://youtube.com");
+
+        File scrFile = ((TakesScreenshot)webDriver).getScreenshotAs(OutputType.FILE);
+
+        try {
+            String fileName="output-screenshots/Screenshot_"+LocalDateTime.now().toString().replace(":","-")+".png";
+            FileUtils.copyFile(scrFile, new File(fileName));
+            System.out.println("Screenshot taken!");
+        } catch (IOException ex2) {
+            ex2.printStackTrace();
+        }
 
     }
 

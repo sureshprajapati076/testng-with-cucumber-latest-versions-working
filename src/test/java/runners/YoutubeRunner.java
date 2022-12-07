@@ -9,7 +9,7 @@ import io.cucumber.testng.CucumberOptions;
         plugin = {"pretty"},
         monochrome = true,
         features = "src/test/resources/Youtube",
-        tags = "@youtube90   or   @youtube91 or @youtube92")
+        tags = "@youtube90")
 public class YoutubeRunner extends BaseRunner {
 
     YoutubeRunner(){
