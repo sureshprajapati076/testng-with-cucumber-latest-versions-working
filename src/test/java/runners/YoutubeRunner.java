@@ -6,7 +6,7 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
         glue = "stepdefs",
-        plugin = {"pretty"},
+        plugin = {"pretty","json:target/cucumber.json","html:target/cucumber.html"},
         monochrome = true,
         features = "src/test/resources/Youtube",
         tags = "@youtube90")
