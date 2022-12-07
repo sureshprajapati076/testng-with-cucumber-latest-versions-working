@@ -43,6 +43,9 @@ public class YoutubeSteps {
         try {
             String fileName="output-screenshots/Screenshot_"+LocalDateTime.now().toString().replace(":","-")+".png";
             FileUtils.copyFile(scrFile, new File(fileName));
+
+            //if we need to attach file to scenario for reporting.
+            // scenario.attach(Files.readAllBytes(Paths.get(scrFile.getAbsolutePath())),"image/png",fileName);
             System.out.println("Screenshot taken!");
         } catch (IOException ex2) {
             ex2.printStackTrace();
