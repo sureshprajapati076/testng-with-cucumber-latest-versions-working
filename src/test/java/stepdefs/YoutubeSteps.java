@@ -37,6 +37,9 @@ public class YoutubeSteps {
         ChromeOptions options = new ChromeOptions();
         Boolean headlessOption=Boolean.valueOf(System.getProperty("headless"));
         options.setHeadless(headlessOption);
+
+        System.out.println("Headless Option Received as: "+headlessOption);
+
         webDriver = new ChromeDriver(options);
         webDriver.manage().window().maximize();
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
