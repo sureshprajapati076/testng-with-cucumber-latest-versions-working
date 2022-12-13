@@ -19,6 +19,8 @@ import utils.PropertiesReaderUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -29,9 +31,12 @@ public class YoutubeSteps {
 
     SoftAssert softAssert = new SoftAssert();
 
-    @Before
-    public void setupDriver() {
+    Scenario scenario;
 
+    @Before
+    public void setupDriver(Scenario scenario) {
+
+        this.scenario=scenario;
         //  System.setProperty("webdriver.chrome.driver","C:/Users/sures/Documents/chromedriver.exe");
 
         ChromeOptions options = new ChromeOptions();
@@ -50,18 +55,7 @@ public class YoutubeSteps {
 //      Elements elements = document.selectXpath("//*[@id='signInBtn']");
 
 
-        File scrFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
 
-        try {
-            String fileName = "output-screenshots/Screenshot_" + LocalDateTime.now().toString().replace(":", "-") + ".png";
-            FileUtils.copyFile(scrFile, new File(fileName));
-
-            //if we need to attach file to scenario for reporting.
-            // scenario.attach(Files.readAllBytes(Paths.get(scrFile.getAbsolutePath())),"image/png",fileName);
-            System.out.println("Screenshot taken!");
-        } catch (IOException ex2) {
-            ex2.printStackTrace();
-        }
 
     }
 
@@ -76,6 +70,8 @@ public class YoutubeSteps {
 
         //softAssert.assertAll();
 
+        attachScreenshotToReport("HomePage");
+
     }
 
     @When("User enters text {string} in search box")
@@ -84,6 +80,8 @@ public class YoutubeSteps {
 
         System.out.println(PropertiesReaderUtils.getFieldValue("dataproviderfile"));
         System.out.println(PropertiesReaderUtils.getFieldValue("dataproviderlocation"));
+
+        attachScreenshotToReport("SearchBox");
 
     }
 
@@ -112,6 +110,46 @@ public class YoutubeSteps {
     public void afterStep(Scenario scenario) {
         System.out.println(scenario.getSourceTagNames());
         System.out.println("CURRENT THREAD: " + Thread.currentThread().getId());
+
+
+
+
+
+    }
+
+
+    //below will attach screenshot for reproting... you can copy file to output-screenshot folder by un-commenting FileUtils.copyFile()
+    public void attachScreenshotToReport(String name){
+        File scrFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
+
+        try {
+            String fileName = name + ".png";
+            //FileUtils.copyFile(scrFile, new File(fileName));
+
+            //if we need to attach file to scenario for reporting.
+            scenario.attach(Files.readAllBytes(Paths.get(scrFile.getAbsolutePath())),"image/png",fileName);
+            System.out.println("Screenshot taken!");
+        } catch (IOException ex2) {
+            ex2.printStackTrace();
+        }
+    }
+
+
+
+    //Below method takes screenshot and save to output-screenshots folder for debug
+    public void takeScreenshot(){
+                File scrFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
+
+        try {
+            String fileName = "output-screenshots/Screenshot_" + LocalDateTime.now().toString().replace(":", "-") + ".png";
+            FileUtils.copyFile(scrFile, new File(fileName));
+
+            //if we need to attach file to scenario for reporting.
+            // scenario.attach(Files.readAllBytes(Paths.get(scrFile.getAbsolutePath())),"image/png",fileName);
+            System.out.println("Screenshot taken!");
+        } catch (IOException ex2) {
+            ex2.printStackTrace();
+        }
     }
 
 
