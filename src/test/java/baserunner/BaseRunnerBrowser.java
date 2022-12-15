@@ -2,7 +2,6 @@ package baserunner;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
-import io.netty.handler.codec.string.LineSeparator;
 import org.apache.commons.io.FileUtils;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeSuite;
@@ -27,10 +26,10 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class BaseRunner extends AbstractTestNGCucumberTests {
+public class BaseRunnerBrowser extends AbstractTestNGCucumberTests {
     String featureFolder;
 
-    public BaseRunner(String featureFolderPath) {
+    public BaseRunnerBrowser(String featureFolderPath) {
         this.featureFolder = featureFolderPath;
     }
 
@@ -55,7 +54,7 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
         List<ScenarioDTO> scenarioDTOList = new ArrayList<>();
         Predicate<ScenarioDTO> cukeTagFilterPredicate = ScenarioDTO::isCukeTagFound;
         Predicate<ScenarioDTO> hashTagFilterPredicate = ScenarioDTO::isHashTagFound;
-        String endLine=System.lineSeparator();
+        String endLine = System.lineSeparator();
         try {
             linesOfFeature = Files.readAllLines(Path.of(file.getPath()));
 
@@ -93,7 +92,7 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
 
         try {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
-            StringBuilder sb= new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             String scenarioName = "";
             List<String> exampleFields = new ArrayList<>();
             boolean hashTagFound = false;
@@ -138,7 +137,7 @@ public class BaseRunner extends AbstractTestNGCucumberTests {
 
             }
             int last = sb.lastIndexOf(endLine);
-            if (last >= 0)  sb.delete(last, sb.length());
+            if (last >= 0) sb.delete(last, sb.length());
             writer.write(sb.toString());
             writer.close();
         } catch (UnsupportedEncodingException e) {

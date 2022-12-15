@@ -7,10 +7,11 @@ import java.util.Properties;
 public class PropertiesReaderUtils {
     private static Properties properties;
 
-    private PropertiesReaderUtils(){}
+    private PropertiesReaderUtils() {
+    }
 
-    private static void readProperties(){
-        properties= new Properties();
+    private static void readProperties() {
+        properties = new Properties();
         try {
             System.out.println("LOADING...");
             properties.load(new FileReader("configuration/config.properties"));
@@ -19,8 +20,8 @@ public class PropertiesReaderUtils {
         }
     }
 
-    public static String getFieldValue(String value){
-        if(properties==null) readProperties();
+    public static String getFieldValue(String value) {
+        if (properties == null) readProperties();
         return properties.getProperty(value);
     }
 

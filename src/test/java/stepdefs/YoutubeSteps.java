@@ -3,17 +3,13 @@ package stepdefs;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
-import io.cucumber.java.en.*;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.apache.commons.io.FileUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import utils.PropertiesReaderUtils;
 
@@ -21,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class YoutubeSteps {
@@ -36,25 +31,23 @@ public class YoutubeSteps {
     @Before
     public void setupDriver(Scenario scenario) {
 
-        this.scenario=scenario;
+        this.scenario = scenario;
         //  System.setProperty("webdriver.chrome.driver","C:/Users/sures/Documents/chromedriver.exe");
 
-        ChromeOptions options = new ChromeOptions();
-        Boolean headlessOption=Boolean.valueOf(System.getProperty("headless"));
-        options.setHeadless(headlessOption);
-
-        System.out.println("Headless Option Received as: "+headlessOption);
-
-        webDriver = new ChromeDriver(options);
-        webDriver.manage().window().maximize();
-        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
-        webDriver.get("https://citibank.com");
+//        ChromeOptions options = new ChromeOptions();
+//        Boolean headlessOption=Boolean.valueOf(System.getProperty("headless"));
+//        options.setHeadless(headlessOption);
+//
+//        System.out.println("Headless Option Received as: "+headlessOption);
+//
+//        webDriver = new ChromeDriver(options);
+//        webDriver.manage().window().maximize();
+//        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
+//        webDriver.get("https://citibank.com");
 
 
 //      Document document = Jsoup.parse(webDriver.getPageSource());
 //      Elements elements = document.selectXpath("//*[@id='signInBtn']");
-
-
 
 
     }
@@ -112,14 +105,11 @@ public class YoutubeSteps {
         System.out.println("CURRENT THREAD: " + Thread.currentThread().getId());
 
 
-
-
-
     }
 
 
     //below will attach screenshot for reproting... you can copy file to output-screenshot folder by un-commenting FileUtils.copyFile()
-    public void attachScreenshotToReport(String name){
+    public void attachScreenshotToReport(String name) {
         File scrFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
 
         try {
@@ -127,7 +117,7 @@ public class YoutubeSteps {
             //FileUtils.copyFile(scrFile, new File(fileName));
 
             //if we need to attach file to scenario for reporting.
-            scenario.attach(Files.readAllBytes(Paths.get(scrFile.getAbsolutePath())),"image/png",fileName);
+            scenario.attach(Files.readAllBytes(Paths.get(scrFile.getAbsolutePath())), "image/png", fileName);
             System.out.println("Screenshot taken!");
         } catch (IOException ex2) {
             ex2.printStackTrace();
@@ -135,10 +125,9 @@ public class YoutubeSteps {
     }
 
 
-
     //Below method takes screenshot and save to output-screenshots folder for debug
-    public void takeScreenshot(){
-                File scrFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
+    public void takeScreenshot() {
+        File scrFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
 
         try {
             String fileName = "output-screenshots/Screenshot_" + LocalDateTime.now().toString().replace(":", "-") + ".png";

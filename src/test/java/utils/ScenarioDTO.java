@@ -5,8 +5,8 @@ import java.util.List;
 
 public class ScenarioDTO {
     List<String> currentScenario;
-    boolean cukeTagFound=false;
-    boolean hashTagFound=false;
+    boolean cukeTagFound = false;
+    boolean hashTagFound = false;
 
     public ScenarioDTO() {
         currentScenario = new ArrayList<>();
