@@ -11,11 +11,10 @@ import utils.ScenarioDTO;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -57,10 +56,8 @@ public class BaseRunnerBrowser extends AbstractTestNGCucumberTests {
         String endLine = System.lineSeparator();
         try {
             linesOfFeature = Files.readAllLines(Path.of(file.getPath()));
-
             ScenarioDTO currentScenarioDto = new ScenarioDTO();
-            for (int i = 0; i < linesOfFeature.size(); i++) {
-                String currentLine = linesOfFeature.get(i);
+            for (String currentLine : linesOfFeature) {
                 if (currentLine.trim().startsWith("@")) {
                     scenarioDTOList.add(currentScenarioDto);
                     currentScenarioDto = new ScenarioDTO();
@@ -85,13 +82,12 @@ public class BaseRunnerBrowser extends AbstractTestNGCucumberTests {
 
             if (hashTagCukeTagFound == 0) return;
 
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         try {
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
             String scenarioName = "";
             List<String> exampleFields = new ArrayList<>();
@@ -122,10 +118,10 @@ public class BaseRunnerBrowser extends AbstractTestNGCucumberTests {
 
                         for (Map<String, String> myMap : excelDataFromSheet) {
                             if (myMap.get("Scenario").equals(scenarioName)) {
-                                String fromExcelData = "|";
+                                StringBuilder fromExcelData = new StringBuilder("|");
                                 for (String field : exampleFields) {
                                     if (!field.trim().isBlank())
-                                        fromExcelData += myMap.get(field.trim()).trim() + "|";
+                                        fromExcelData.append(myMap.get(field.trim()).trim()).append("|");
                                 }
                                 sb.append("      ").append(fromExcelData).append(endLine);
                             }
@@ -140,10 +136,6 @@ public class BaseRunnerBrowser extends AbstractTestNGCucumberTests {
             if (last >= 0) sb.delete(last, sb.length());
             writer.write(sb.toString());
             writer.close();
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
