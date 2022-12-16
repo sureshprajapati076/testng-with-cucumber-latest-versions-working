@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import stepdefs.BeforeActions;
 import stepdefs.FbSignupSteps;
 import utils.SeleniumDriver;
 
@@ -22,7 +23,7 @@ public class FaceBookActions {
     public void openUrl(String url) {
         webDriver.get(url);
         SeleniumDriver.takeScreenshot();
-        SeleniumDriver.attachScreenshotToReport("HomePage", FbSignupSteps.scenario);
+        SeleniumDriver.attachScreenshotToReport("HomePage", BeforeActions.scenarioThreadLocal.get());
     }
 
     public void clickSignup() throws InterruptedException {
