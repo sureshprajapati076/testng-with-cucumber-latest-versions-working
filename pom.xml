@@ -89,6 +89,7 @@
                     <parallel>methods</parallel>
                     <threadCount>2</threadCount>
                     <perCoreThreadCount>true</perCoreThreadCount>
+                    <testFailureIgnore>true</testFailureIgnore>
                     <properties>
                         <property>
                             <name>dataproviderthreadcount</name>    <!-- This property value will limit/control thread count for command line
