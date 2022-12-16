@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import stepdefs.FbSignupSteps;
 import utils.SeleniumDriver;
 
 public class FaceBookActions {
@@ -20,6 +21,8 @@ public class FaceBookActions {
 
     public void openUrl(String url) {
         webDriver.get(url);
+        SeleniumDriver.takeScreenshot();
+        SeleniumDriver.attachScreenshotToReport("HomePage", FbSignupSteps.scenario);
     }
 
     public void clickSignup() throws InterruptedException {
@@ -34,6 +37,7 @@ public class FaceBookActions {
         Select mySelect = new Select(pageLocator.month);
         mySelect.getOptions().forEach(x -> System.out.println(x.getText()));
         mySelect.selectByVisibleText("Jul");
-        Assert.assertTrue(false);
+        SeleniumDriver.takeScreenshot();
+        Assert.assertTrue(true);
     }
 }

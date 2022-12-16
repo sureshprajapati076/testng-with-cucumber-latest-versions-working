@@ -2,6 +2,7 @@ package stepdefs;
 
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
+import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -13,6 +14,12 @@ import utils.SeleniumDriver;
 public class FbSignupSteps {
 
     FaceBookActions pageAction = new FaceBookActions();
+    public static Scenario scenario;
+
+    @Before
+    public void setUpScenario(Scenario scenario){
+        this.scenario=scenario;
+    }
 
     @Given("User is in facebook {string} homepage")
     public void user_is_in_facebook_homepage(String url) {
