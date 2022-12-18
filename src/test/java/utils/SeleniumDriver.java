@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.asserts.SoftAssert;
+import stepdefs.BeforeActions;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,7 +71,7 @@ public class SeleniumDriver {
         return webDriver;
     }
 
-    public static void attachScreenshotToReport(String name, Scenario scenario) {
+    public static void attachScreenshotToReport(String name) {
         File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
 
         try {
@@ -78,7 +79,7 @@ public class SeleniumDriver {
             //FileUtils.copyFile(scrFile, new File(fileName));
 
             //if we need to attach file to scenario for reporting.
-            scenario.attach(Files.readAllBytes(Paths.get(scrFile.getAbsolutePath())), "image/png", fileName);
+            BeforeActions.scenarioThreadLocal.get().attach(Files.readAllBytes(Paths.get(scrFile.getAbsolutePath())), "image/png", fileName);
             System.out.println("Screenshot taken!");
         } catch (IOException ex2) {
             ex2.printStackTrace();

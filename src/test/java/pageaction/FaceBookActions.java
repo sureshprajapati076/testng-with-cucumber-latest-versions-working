@@ -23,7 +23,7 @@ public class FaceBookActions {
     public void openUrl(String url) {
         webDriver.get(url);
         SeleniumDriver.takeScreenshot();
-        SeleniumDriver.attachScreenshotToReport("HomePage", BeforeActions.scenarioThreadLocal.get());
+        SeleniumDriver.attachScreenshotToReport("HomePage");
     }
 
     public void clickSignup() throws InterruptedException {
