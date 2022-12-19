@@ -15,7 +15,7 @@ import io.cucumber.testng.CucumberOptions;
 public class FbSignUpRunner extends BaseRunnerBrowser {
 
     public FbSignUpRunner() {
-        super("src/test/resources/Youtube");
+        super("src/test/resources/SignUpFb");
     }
 
 
