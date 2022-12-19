@@ -81,3 +81,6 @@ for first: run via commandline: mvn test -D"buildrunner"="RetryRunner.java"
 in actual scenario if first run does not fail any step then running 2nd step will do nothing, so it won't impact results.
 
 Adjust these steps in jenks as well. see screenshot from jenkins config....
+
+Screenshot added after validating... Build status is shown failed eventhough everything is Okay. This is current issue with cucumber...
+Results are okay!!!!
