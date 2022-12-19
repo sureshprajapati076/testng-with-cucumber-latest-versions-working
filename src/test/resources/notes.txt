@@ -56,3 +56,28 @@ Here, below is optional:
                     if we include buildrunner it will accept both ways.. mvn clean -Dbuildrunner as well as -Dtest params...
 
 also check for @BeforeSuite class in YoutubeRunner.java
+
+
+
+ADDING RETRY of failed scenario:
+Initialization of driver is kept in Given logic instead of Constructor... you can also put in Constructor as previous.
+Just trying this approach so that if we have multiple stepdef classes we dont want to initialize and open browser if we dont require it...
+Again it won't affect testing, if we put that logic in Constructor...
+
+Added RetrySteps user_clicks_somewhere2() where it is forced failed or passed depending on constant.
+This is for demo purpose only in actual scenario if test case fail it will generate rerun.txt and it will run in next RunnerFile.
+
+For this we want to force fail at first and in FailedRetryRunner we want to pass it as a demo.
+
+How it works.
+RetryRunner will set constant to true that will force fail step. and will generate rerun.txt. see details on this java class for config and plugins.
+Next step would be Run FailedRetryRunner.java that will pickup rerun.txt see details on java class.
+We are storing in different folder for cucumber.json so previous is not overwritten.
+
+For generating combined report do like this...
+for first: run via commandline: mvn test -D"buildrunner"="RetryRunner.java"
+2nd step: mvn verify -D"buildrunner"="FailedRetryRunner.java"
+
+in actual scenario if first run does not fail any step then running 2nd step will do nothing, so it won't impact results.
+
+Adjust these steps in jenks as well. see screenshot from jenkins config....

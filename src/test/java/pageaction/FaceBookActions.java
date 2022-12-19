@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import stepdefs.BeforeActions;
 import stepdefs.FbSignupSteps;
 import utils.SeleniumDriver;
@@ -14,13 +15,14 @@ public class FaceBookActions {
     FaceBookLocators pageLocator;
 
     public FaceBookActions() {
+
+    }
+
+    public void openUrl(String url) {
         SeleniumDriver.setupDriver();
         webDriver = SeleniumDriver.getDriver();
         pageLocator = new FaceBookLocators();
         PageFactory.initElements(webDriver, pageLocator);
-    }
-
-    public void openUrl(String url) {
         webDriver.get(url);
         SeleniumDriver.takeScreenshot();
         SeleniumDriver.attachScreenshotToReport("HomePage");

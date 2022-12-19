@@ -27,6 +27,7 @@ public class FbSignupSteps {
         // Write code here that turns the phrase above into concrete actions
 
         pageAction.openUrl(url);
+   //     Assert.fail();
 
     }
 
