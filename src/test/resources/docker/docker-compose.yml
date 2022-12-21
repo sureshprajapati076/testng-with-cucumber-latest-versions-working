@@ -14,6 +14,7 @@ services:
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_MAX_SESSIONS=2   #check max cpu in docker desktop if we want more than that we need below value as true and it will allow max than cpu otherwise if below env value is false or not present it will allow max up to docker desktop cpu availablility
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_VNC_NO_PASSWORD=1
 
   edge:
     image: selenium/node-edge:4.7.2-20221219
@@ -26,6 +27,7 @@ services:
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_MAX_SESSIONS=2
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_VNC_NO_PASSWORD=1
 
   firefox:
     image: selenium/node-firefox:4.7.2-20221219
@@ -38,6 +40,7 @@ services:
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_MAX_SESSIONS=2
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_VNC_NO_PASSWORD=1
 
   selenium-hub:
     image: selenium/hub:4.7.2-20221219

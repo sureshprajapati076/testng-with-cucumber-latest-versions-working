@@ -19,7 +19,7 @@ public class FbSignupSteps {
 
     @Before
     public void setUpScenario(Scenario scenario){
-        this.scenario=scenario;
+        FbSignupSteps.scenario =scenario;
     }
 
     @Given("User is in facebook {string} homepage in {string}")
