@@ -22,11 +22,11 @@ public class FbSignupSteps {
         this.scenario=scenario;
     }
 
-    @Given("User is in facebook {string} homepage")
-    public void user_is_in_facebook_homepage(String url) {
+    @Given("User is in facebook {string} homepage in {string}")
+    public void user_is_in_facebook_homepage(String url, String browser) {
         // Write code here that turns the phrase above into concrete actions
 
-        pageAction.openUrl(url);
+        pageAction.openUrl(url,browser);
    //     Assert.fail();
 
     }

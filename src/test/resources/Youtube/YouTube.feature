@@ -35,3 +35,5 @@ Feature: YouTube Feature Dec 2022
     Examples:
       | homepage | searchText |
       #@#@GOLD
+      |https://youtube.com|Automation|
+      |https://youtube.com|lastRow|

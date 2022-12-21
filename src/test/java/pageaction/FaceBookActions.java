@@ -1,7 +1,9 @@
 package pageaction;
 
 import locators.FaceBookLocators;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -11,15 +13,15 @@ public class FaceBookActions {
     WebDriver webDriver;
     FaceBookLocators pageLocator;
 
-    private void setUpDriver(){
-        SeleniumDriver.setupDriver();
+    private void setUpDriver(String browser){
+        SeleniumDriver.setupDriver(browser);
         webDriver = SeleniumDriver.getDriver();
         pageLocator = new FaceBookLocators();
         PageFactory.initElements(webDriver, pageLocator);
     }
 
-    public void openUrl(String url) {
-        setUpDriver();
+    public void openUrl(String url,String browser) {
+        setUpDriver(browser);
         webDriver.get(url);
         SeleniumDriver.takeScreenshot();
         SeleniumDriver.attachScreenshotToReport("HomePage");
@@ -38,6 +40,8 @@ public class FaceBookActions {
         mySelect.getOptions().forEach(x -> System.out.println(x.getText()));
         mySelect.selectByVisibleText("Jul");
         SeleniumDriver.takeScreenshot();
+        Capabilities cap = ((RemoteWebDriver) webDriver).getCapabilities();
+        System.out.println("BROWSER NAME: "+cap.getBrowserName());
         Assert.assertTrue(true);
     }
 }

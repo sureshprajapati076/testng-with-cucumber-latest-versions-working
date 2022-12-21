@@ -1,0 +1,28 @@
+start services:
+goto folder where docker-compose.yml is present and open terminal
+docker compose up -d
+
+
+stop services:
+docker compose down
+
+
+see services in http://localhost:4444/ui
+
+
+
+To update docker processor in windows:
+
+open or create .wslconfig over C:\users\<username>
+
+OR goto run: %UserProfile%
+
+save it and open powershell in admin mode:
+
+RUN BELOW COMMAND:
+
+Restart-Service LxssManager
+
+Restart docker after this...
+
+

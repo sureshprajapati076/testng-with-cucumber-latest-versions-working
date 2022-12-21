@@ -3,10 +3,15 @@ package utils;
 import io.cucumber.java.Scenario;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.asserts.SoftAssert;
 import stepdefs.BeforeActions;
 
@@ -37,8 +42,8 @@ public class SeleniumDriver {
     }
 
 
-    private SeleniumDriver() {
-        WebDriver webDriver1 = createDriver();
+    private SeleniumDriver(String browser) {
+        WebDriver webDriver1 = createDriver(browser);
         threadLocalDriver.set(webDriver1);
     }
 
@@ -46,25 +51,46 @@ public class SeleniumDriver {
         return threadLocalDriver.get();
     }
 
-    public static void setupDriver() {
-        if (getDriver() == null) new SeleniumDriver();
+    public static void setupDriver(String browser) {
+        if (getDriver() == null) new SeleniumDriver(browser);
     }
 
     public static void closeDriver() {
 
         if (threadLocalDriver.get() != null) {
-            getDriver().close();
+           // getDriver().close();
             getDriver().quit();
             threadLocalDriver.set(null);
         }
     }
 
 
-    private WebDriver createDriver() {
-        ChromeOptions options = new ChromeOptions();
+    private WebDriver createDriver(String browser) {
         Boolean headlessOption = Boolean.valueOf(System.getProperty("headless"));
-        options.setHeadless(headlessOption);
-        WebDriver webDriver = new ChromeDriver(options);
+        WebDriver webDriver;
+
+        if(PropertiesReaderUtils.getFieldValue("remoteSeleniumEnabled").equalsIgnoreCase("true")) {
+            if (browser.equalsIgnoreCase("chrome")) {
+                ChromeOptions options = new ChromeOptions();
+                options.setPlatformName(Platform.LINUX.name());
+                options.setHeadless(headlessOption);
+                webDriver = new RemoteWebDriver(options);
+            } else if (browser.equalsIgnoreCase("edge")) {
+                EdgeOptions options = new EdgeOptions();
+                options.setPlatformName(Platform.LINUX.name());
+                options.setHeadless(headlessOption);
+                webDriver = new RemoteWebDriver(options);
+            } else {
+                FirefoxOptions options = new FirefoxOptions();
+                options.setPlatformName(Platform.LINUX.name());
+                options.setHeadless(headlessOption);
+                webDriver = new RemoteWebDriver(options);
+            }
+        }else{
+            ChromeOptions options = new ChromeOptions();
+            options.setHeadless(headlessOption);
+            webDriver = new ChromeDriver(options);
+        }
         webDriver.manage().window().maximize();
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
         webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
