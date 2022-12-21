@@ -1,28 +1,30 @@
 package utils;
 
+import org.openqa.selenium.WebDriver;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
 public class PropertiesReaderUtils {
-    private static Properties properties;
+    private static final ThreadLocal<Properties> threadLocalProperties = new ThreadLocal<>();
 
     private PropertiesReaderUtils() {
     }
 
     private static void readProperties() {
-        properties = new Properties();
+        Properties properties = new Properties();
         try {
-            System.out.println("LOADING...");
             properties.load(new FileReader("configuration/config.properties"));
+            threadLocalProperties.set(properties);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static String getFieldValue(String value) {
-        if (properties == null) readProperties();
-        return properties.getProperty(value);
+        if (threadLocalProperties.get() == null) readProperties();
+        return threadLocalProperties.get().getProperty(value);
     }
 
 }
