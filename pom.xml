@@ -94,7 +94,7 @@
                         <property>
                             <name>dataproviderthreadcount</name>    <!-- This property value will limit/control thread count for command line
                             Note that @DataProvider should be made parallel in YOutubeRunner.java as well without this parallel does not work.... -->
-                            <value>6</value>
+                            <value>3</value>
                         </property>
                     </properties>
                 </configuration>
