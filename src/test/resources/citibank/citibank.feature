@@ -16,4 +16,7 @@ Feature: Citi Bank Feature Testing
   #!@#@CITIBANK
       | https://citibank.com | edge    | 352                 | 635448952 | 11/12/1992 |
       | https://citibank.com | chrome  | 352                 | 635448952 | 11/12/1992 |
-      | https://citibank.com | firefox | 985                 | 448569254 | 10/10/1995 |
+      | https://citibank.com | edge    | 985                 | 448569254 | 10/10/1995 |
+      | https://citibank.com | chrome  | 352                 | 635448952 | 11/12/1992 |
+      | https://citibank.com | edge    | 352                 | 635448952 | 11/12/1992 |
+      | https://citibank.com | chrome  | 985                 | 448569254 | 10/10/1995 |
