@@ -1,6 +1,6 @@
 Feature: Citi Bank Feature Testing
 
-  @citibank
+  @citibank @bank
   Scenario Outline: Citi Bank Registration
     Given When user is in citi home page "<homepage>" in "<browser>" browser
     When User clicks register account link
