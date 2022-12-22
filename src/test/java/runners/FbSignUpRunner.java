@@ -15,9 +15,5 @@ import io.cucumber.testng.CucumberOptions;
         tags = "@signup")
 public class FbSignUpRunner extends BaseRunnerBrowser {
 
-    public FbSignUpRunner() {
-        super("src/test/resources/SignUpFb");
-    }
-
 
 }

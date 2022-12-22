@@ -26,25 +26,27 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class BaseRunnerBrowser extends AbstractTestNGCucumberTests {
-    String featureFolder;
-
-    public BaseRunnerBrowser(String featureFolderPath) {
-        this.featureFolder = featureFolderPath;
-    }
-
     @BeforeSuite
     public void beforeSuite(ITestContext itc) {
-        String cukeTags = itc.getSuite().getAllMethods().listIterator().next().getTestClass().getRealClass().getAnnotation(CucumberOptions.class).tags();
+        CucumberOptions options = itc.getSuite().getAllMethods().listIterator().next().getTestClass().getRealClass().getAnnotation(CucumberOptions.class);
+        String cukeTags = options.tags();
+        String []featureFileFolder = options.features();
+
         List<String> cTags = Arrays.asList(cukeTags.split(" ")).stream().filter(tag -> tag.trim().startsWith("@")).collect(Collectors.toList());
-        List<File> listOfFiles = getAllFeatureFiles(featureFolder);
+        List<File> listOfFiles = getAllFeatureFiles(featureFileFolder);
         listOfFiles.forEach(file -> {
             overrideFeatureFiles(file, cTags);
         });
     }
 
-    private List<File> getAllFeatureFiles(String featureFolder) {
-        Collection<File> filesList = FileUtils.listFiles(new File(featureFolder), new String[]{"feature"}, true);
-        return new ArrayList<>(filesList);
+    private List<File> getAllFeatureFiles(String []featureFileFolder) {
+        Collection<File> filesList;
+        List<File> fileList=new ArrayList<>();
+        for(String featureFolder: featureFileFolder) {
+             filesList = FileUtils.listFiles(new File(featureFolder), new String[]{"feature"}, true);
+             fileList.addAll(filesList);
+        }
+        return fileList;
     }
 
     private void overrideFeatureFiles(File file, List<String> cukeTags) {

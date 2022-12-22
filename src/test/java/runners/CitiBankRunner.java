@@ -14,7 +14,4 @@ import io.cucumber.testng.CucumberOptions;
         tags = "@citibank")
 public class CitiBankRunner extends BaseRunnerBrowser {
 
-    public CitiBankRunner() {
-        super("src/test/resources/citibank");
-    }
 }

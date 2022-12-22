@@ -12,7 +12,4 @@ import io.cucumber.testng.CucumberOptions;
         tags = "@youtube90")
 public class YoutubeRunner extends BaseRunnerBrowser {
 
-    YoutubeRunner() {
-        super("src/test/resources/Youtube");
-    }
 }
