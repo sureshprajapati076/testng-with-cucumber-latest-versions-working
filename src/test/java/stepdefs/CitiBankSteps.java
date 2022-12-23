@@ -1,10 +1,13 @@
 package stepdefs;
 
+import io.cucumber.java.AfterStep;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pageaction.CitiBankActions;
+import utils.SeleniumDriver;
 
 public class CitiBankSteps {
 
@@ -42,5 +45,11 @@ public class CitiBankSteps {
     @Then("verify user sees no errors")
     public void verify_user_sees_no_errors() {
         System.out.println("All Test Completed without error");
+    }
+    @AfterStep
+    public void screenshotIfFailed(Scenario scenario){
+        if(scenario.isFailed()){
+            SeleniumDriver.takeScreenshot();
+        }
     }
 }
