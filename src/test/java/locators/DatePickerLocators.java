@@ -15,6 +15,20 @@ public class DatePickerLocators {
     @FindBy(xpath="//label[@for='departure']")
     public WebElement departureDate;
 
+    @FindBy(xpath="(//*[@class='DayPicker-Caption'])[1]")
+    public WebElement leftMonthYearHeading;
+
+    @FindBy(xpath="(//*[@class='DayPicker-Caption'])[2]")
+    public WebElement rightMonthYearHeading;
+
+    public String leftDayPickerDay = "(//div[@class='DayPicker-Body'])[1]//div[@class='DayPicker-Day']//*[text()='DAYOFMONTH']";
+    public String rightDayPickerDay = "(//div[@class='DayPicker-Body'])[2]//div[@class='DayPicker-Day']//*[text()='DAYOFMONTH']";
+
+
+    /*
+
+    BELOW are detailed one above is simplified one
+
     @FindBy(xpath="(//div[@class='DayPicker-Month'])[1]//*[@class='DayPicker-Caption']")
     public WebElement leftMonthYearHeading;
 
@@ -24,6 +38,8 @@ public class DatePickerLocators {
     public String leftDayPickerDay = "(//div[@class='DayPicker-Month'])[1]//div[@class='DayPicker-Body']//div[@class='DayPicker-Day' and not(contains(@class,'DayPicker-Day--disabled'))]//*[text()='DAYOFMONTH']";
     public String rightDayPickerDay = "(//div[@class='DayPicker-Month'])[2]//div[@class='DayPicker-Body']//div[@class='DayPicker-Day' and not(contains(@class,'DayPicker-Day--disabled'))]//*[text()='DAYOFMONTH']";
 
+
+     */
     @FindBy(xpath="//span[@aria-label='Next Month']")
     public WebElement nextMonth;
 
