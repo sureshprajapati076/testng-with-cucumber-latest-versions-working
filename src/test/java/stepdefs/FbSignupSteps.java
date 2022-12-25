@@ -1,15 +1,11 @@
 package stepdefs;
 
-import io.cucumber.java.After;
-import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import org.testng.Assert;
 import pageaction.FaceBookActions;
-import utils.SeleniumDriver;
 
 
 public class FbSignupSteps {
@@ -41,19 +37,5 @@ public class FbSignupSteps {
         // Write code here that turns the phrase above into concrete actions
 
     }
-
-    @After
-    public void quitDriver() {
-        SeleniumDriver.closeDriver();
-    }
-
-    @AfterStep
-    public void takeScreenshotForFailure(Scenario scenario) {
-        if (scenario.isFailed()) {
-            System.out.println("FAILED SCENARIO");
-            // For failure test case: screenshot would be taken care by @Listners annotation using TestNG
-        }
-    }
-
 
 }

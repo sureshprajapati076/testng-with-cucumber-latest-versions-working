@@ -1,18 +1,14 @@
 package stepdefs;
 
-import io.cucumber.java.AfterStep;
-import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pageaction.CitiBankActions;
-import utils.SeleniumDriver;
 
 public class CitiBankSteps {
 
     CitiBankActions actions = new CitiBankActions();
-
 
     @Given("When user is in citi home page {string} in {string} browser")
     public void when_user_is_in_citi_home_page_in_browser(String url, String browser) {
@@ -46,10 +42,5 @@ public class CitiBankSteps {
     public void verify_user_sees_no_errors() {
         System.out.println("All Test Completed without error");
     }
-    @AfterStep
-    public void screenshotIfFailed(Scenario scenario){
-        if(scenario.isFailed()){
-            SeleniumDriver.takeScreenshot();
-        }
-    }
+
 }

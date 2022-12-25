@@ -1,12 +1,11 @@
 package utils;
 
-import io.cucumber.java.Scenario;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import stepdefs.BeforeActions;
+import stepdefs.CommonActions;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +47,7 @@ public class SeleniumWebDriver_EasyVersion {
             //FileUtils.copyFile(scrFile, new File(fileName));
 
             //if we need to attach file to scenario for reporting.
-            BeforeActions.scenarioThreadLocal.get().attach(Files.readAllBytes(Paths.get(scrFile.getAbsolutePath())), "image/png", fileName);
+            CommonActions.scenarioThreadLocal.get().attach(Files.readAllBytes(Paths.get(scrFile.getAbsolutePath())), "image/png", fileName);
             System.out.println("Screenshot taken!");
         } catch (IOException ex2) {
             ex2.printStackTrace();

@@ -1,6 +1,5 @@
 package stepdefs;
 
-import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
@@ -98,15 +97,6 @@ public class YoutubeSteps {
         //   softAssert.assertAll();
 
     }
-
-    @AfterStep
-    public void afterStep(Scenario scenario) {
-        System.out.println(scenario.getSourceTagNames());
-        System.out.println("CURRENT THREAD: " + Thread.currentThread().getId());
-
-
-    }
-
 
     //below will attach screenshot for reproting... you can copy file to output-screenshot folder by un-commenting FileUtils.copyFile()
     public void attachScreenshotToReport(String name) {

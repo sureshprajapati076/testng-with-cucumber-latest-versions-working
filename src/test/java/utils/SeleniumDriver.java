@@ -11,7 +11,7 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.asserts.SoftAssert;
-import stepdefs.BeforeActions;
+import stepdefs.CommonActions;
 
 import java.io.File;
 import java.io.IOException;
@@ -112,7 +112,7 @@ public class SeleniumDriver {
             //FileUtils.copyFile(scrFile, new File(fileName));
 
             //if we need to attach file to scenario for reporting.
-            BeforeActions.scenarioThreadLocal.get().attach(Files.readAllBytes(Paths.get(scrFile.getAbsolutePath())), "image/png", fileName);
+            CommonActions.scenarioThreadLocal.get().attach(Files.readAllBytes(Paths.get(scrFile.getAbsolutePath())), "image/png", fileName);
             System.out.println("Screenshot taken!");
         } catch (IOException ex2) {
             ex2.printStackTrace();

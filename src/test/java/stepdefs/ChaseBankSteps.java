@@ -1,11 +1,8 @@
 package stepdefs;
 
-import io.cucumber.java.AfterStep;
-import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import pageaction.ChaseBankActions;
-import utils.SeleniumDriver;
 
 public class ChaseBankSteps {
     ChaseBankActions actions = new ChaseBankActions();
@@ -29,13 +26,6 @@ public class ChaseBankSteps {
     @And("User clicks Next button")
     public void user_clicks_next_button() {
       actions.clickNextButton();
-    }
-
-    @AfterStep
-    public void screenshotIfFailed(Scenario scenario){
-        if(scenario.isFailed()){
-            SeleniumDriver.takeScreenshot();
-        }
     }
 
 }
