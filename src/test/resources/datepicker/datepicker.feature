@@ -11,5 +11,5 @@ Feature: Date Picker Feature Testing
 
 
     Examples:
-      | homepage                           | browser | departureDate | returnDate        |
-      | https://www.makemytrip.com/flights | chrome  | 31 March 2023  | 22 June 2023 |
+      | homepage                           | browser | departureDate | returnDate   |
+      | https://www.makemytrip.com/flights | chrome  | 8 July 2023 | 29 November 2023 |
