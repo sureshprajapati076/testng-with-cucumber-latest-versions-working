@@ -87,45 +87,27 @@ public class DatePickerActions {
 
             if (!departureFlag) {
                 if (rightMonth.findElement(pageLocator.yearMonthTitle).getText().equalsIgnoreCase(dateDeparture)) {
-                    for (WebElement day : rightMonth.findElements(pageLocator.dayPickerDay)) {
-                        if (day.getText().equalsIgnoreCase(depDay)) {
-                            day.click();
-                            departureFlag = true;
-                            break;
-                        }
-                    }
-                } else if (leftMonth.findElement(pageLocator.yearMonthTitle).getText().equalsIgnoreCase(dateDeparture)) {
 
-                    for (WebElement day : leftMonth.findElements(pageLocator.dayPickerDay)) {
-                        if (day.getText().equalsIgnoreCase(depDay)) {
-                            day.click();
-                            departureFlag = true;
-                            break;
-                        }
-                    }
+                    rightMonth.findElement(By.xpath(pageLocator.dayPickerDay.replace("DAYOFMONTH",depDay))).click();
+                    departureFlag=true;
+                } else if (leftMonth.findElement(pageLocator.yearMonthTitle).getText().equalsIgnoreCase(dateDeparture)) {
+                    leftMonth.findElement(By.xpath(pageLocator.dayPickerDay.replace("DAYOFMONTH",depDay))).click();
+                    departureFlag=true;
+
                 }
             }
 
             if (!returnFlag) {
                 if (rightMonth.findElement(pageLocator.yearMonthTitle).getText().equalsIgnoreCase(returnDate)) {
-                    for (WebElement day : rightMonth.findElements(pageLocator.dayPickerDay)) {
-                        if (day.getText().equalsIgnoreCase(retDay)) {
-                            day.click();
-                            returnFlag = true;
-                            break;
-                        }
+                    rightMonth.findElement(By.xpath(pageLocator.dayPickerDay.replace("DAYOFMONTH",retDay))).click();
+                    returnFlag=true;
                     }
                 } else if (leftMonth.findElement(pageLocator.yearMonthTitle).getText().equalsIgnoreCase(returnDate)) {
 
-                    for (WebElement day : leftMonth.findElements(pageLocator.dayPickerDay)) {
-                        if (day.getText().equalsIgnoreCase(retDay)) {
-                            day.click();
-                            returnFlag = true;
-                            break;
-                        }
-                    }
+                leftMonth.findElement(By.xpath(pageLocator.dayPickerDay.replace("DAYOFMONTH",retDay))).click();
+                returnFlag=true;
                 }
-            }
+
 
 
             if (!(departureFlag && returnFlag))

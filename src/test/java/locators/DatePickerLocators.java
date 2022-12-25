@@ -26,7 +26,7 @@ public class DatePickerLocators {
 
     public By yearMonthTitle = By.className("DayPicker-Caption");
 
-    public By dayPickerDay = By.xpath(".//div[@class='DayPicker-Body']//div[@class='DayPicker-Day']");
+    public String dayPickerDay = ".//div[@class='DayPicker-Body']//div[@class='DayPicker-Day' and not(contains(@class,'DayPicker-Day--disabled'))]//*[text()='DAYOFMONTH']";
 
     @FindBy(xpath="//span[@aria-label='Next Month']")
     public WebElement nextMonth;
