@@ -84,7 +84,7 @@
                 <configuration>
                     <includes>
                         <include>${buildrunner}</include>
-                        <include>**/FailedRetryRunner.java</include>
+<!--                        <include>**/FailedRetryRunner.java</include>-->
                     </includes>
                     <parallel>methods</parallel>
                     <threadCount>2</threadCount>
