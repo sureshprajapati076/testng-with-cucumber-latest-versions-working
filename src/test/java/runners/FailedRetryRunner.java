@@ -8,7 +8,7 @@ import stepdefs.RetrySteps;
 
 
 @CucumberOptions(plugin = {"pretty",
-        "json:target/cucumber-report/cucumber.json",
+        "json:target/cucumber-report1/cucumber.json",
         "rerun:target/rerun.txt"
 }, monochrome = true, dryRun = false, glue = "stepdefs", features = "@target/rerun.txt"
         )
