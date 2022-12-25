@@ -1,10 +1,8 @@
 package pageaction;
 
-import locators.CitiBankLocators;
 import locators.DatePickerLocators;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -14,7 +12,6 @@ import utils.SeleniumDriver;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class DatePickerActions {
 
@@ -46,74 +43,47 @@ public class DatePickerActions {
         pageLocator.departureDate.click();
     }
 
-    public void selectDepartureAndReturnDate(String departureDate, String returnDate1) {
-
-
+    public void selectDepartureAndReturnDate(String departureDate, String returnDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
-
         LocalDate deptDate = LocalDate.parse(departureDate, formatter);
-
-        LocalDate retDate = LocalDate.parse(returnDate1, formatter);
-
+        LocalDate retDate = LocalDate.parse(returnDate, formatter);
 
         if (LocalDate.now().isAfter(deptDate) || deptDate.isAfter(retDate)) {
             System.out.println("Date is not correct");
             Assert.fail();
         }
 
-
         String dateDeparture = deptDate.getMonth().toString() + deptDate.getYear();
-        String depDay = String.format("%s", deptDate.getDayOfMonth());
+        String depDay = String.valueOf(deptDate.getDayOfMonth());
 
-        String returnDate = retDate.getMonth().toString() + retDate.getYear();
-        String retDay = String.format("%s", retDate.getDayOfMonth());
+        String dateReturn = retDate.getMonth().toString() + retDate.getYear();
+        String retDay = String.valueOf(retDate.getDayOfMonth());
 
-
-//        String dateDeparture="April2023";
-//        String depDay="30";
-//        String returnDate="July2023";
-//        String retDay="25";
-
-        boolean departureFlag = false, returnFlag = false;
-
+        //select departure Date.. check on right month first and check on left month
         while (true) {
-
             waitNsec(1);
-
-            List<WebElement> months = pageLocator.dayPickerMonths.findElements(pageLocator.dayPickerSingleMonth);
-
-            WebElement leftMonth = months.get(0);
-            WebElement rightMonth = months.get(1);
-
-            if (!departureFlag) {
-                if (rightMonth.findElement(pageLocator.yearMonthTitle).getText().equalsIgnoreCase(dateDeparture)) {
-
-                    rightMonth.findElement(By.xpath(pageLocator.dayPickerDay.replace("DAYOFMONTH",depDay))).click();
-                    departureFlag=true;
-                } else if (leftMonth.findElement(pageLocator.yearMonthTitle).getText().equalsIgnoreCase(dateDeparture)) {
-                    leftMonth.findElement(By.xpath(pageLocator.dayPickerDay.replace("DAYOFMONTH",depDay))).click();
-                    departureFlag=true;
-
-                }
-            }
-
-            if (!returnFlag) {
-                if (rightMonth.findElement(pageLocator.yearMonthTitle).getText().equalsIgnoreCase(returnDate)) {
-                    rightMonth.findElement(By.xpath(pageLocator.dayPickerDay.replace("DAYOFMONTH",retDay))).click();
-                    returnFlag=true;
-                    }
-                } else if (leftMonth.findElement(pageLocator.yearMonthTitle).getText().equalsIgnoreCase(returnDate)) {
-
-                leftMonth.findElement(By.xpath(pageLocator.dayPickerDay.replace("DAYOFMONTH",retDay))).click();
-                returnFlag=true;
-                }
-
-
-
-            if (!(departureFlag && returnFlag))
-                    pageLocator.nextMonth.click();
-            else
+            if (pageLocator.rightMonthYearHeading.getText().equalsIgnoreCase(dateDeparture)) {
+                webDriver.findElement(By.xpath(pageLocator.rightDayPickerDay.replace("DAYOFMONTH", depDay))).click();
                 break;
+            } else if (pageLocator.leftMonthYearHeading.getText().equalsIgnoreCase(dateDeparture)) {
+                webDriver.findElement(By.xpath(pageLocator.leftDayPickerDay.replace("DAYOFMONTH", depDay))).click();
+                break;
+            }
+            pageLocator.nextMonth.click();
+        }
+
+
+        //select return Date.. check on right month first and check on left month
+        while (true) {
+            waitNsec(1);
+            if (pageLocator.rightMonthYearHeading.getText().equalsIgnoreCase(dateReturn)) {
+                webDriver.findElement(By.xpath(pageLocator.rightDayPickerDay.replace("DAYOFMONTH", retDay))).click();
+                break;
+            } else if (pageLocator.leftMonthYearHeading.getText().equalsIgnoreCase(dateReturn)) {
+                webDriver.findElement(By.xpath(pageLocator.leftDayPickerDay.replace("DAYOFMONTH", retDay))).click();
+                break;
+            }
+            pageLocator.nextMonth.click();
         }
     }
 
