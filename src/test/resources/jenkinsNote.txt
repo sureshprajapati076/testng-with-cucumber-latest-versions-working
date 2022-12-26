@@ -9,3 +9,8 @@ mvn verify will generate cucumber report for local purpose only...
 
 adding verify won't affect jenkin generating report since we are using separate like plugin POST Build action
 
+
+
+For MAC/LINUX jenkin setup to run rerun.txt, check file Mac_Linux_Jenkin_config_.png
+
+
