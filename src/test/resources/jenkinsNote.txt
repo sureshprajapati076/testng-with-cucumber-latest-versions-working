@@ -1,0 +1,11 @@
+For Windows Jenkis, install powershell script plugin
+
+add config as in PowerShell_Jenkins_Setpu_windos10.png
+
+No mandatory to add verify as mvn goal (in both linux or windows jenkins), since we are using cucumber report as post-build actions.
+it will add as long as .json file is generated in target folder.
+
+mvn verify will generate cucumber report for local purpose only...
+
+adding verify won't affect jenkin generating report since we are using separate like plugin POST Build action
+
