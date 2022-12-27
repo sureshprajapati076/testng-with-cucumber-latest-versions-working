@@ -26,9 +26,7 @@ public class BaseRunnerBrowser extends AbstractTestNGCucumberTests {
 
         List<String> cTags = Arrays.asList(cukeTags.split(" ")).stream().filter(tag -> tag.trim().startsWith("@")).collect(Collectors.toList());
         List<File> listOfFiles = getAllFeatureFiles(featureFileFolder);
-        listOfFiles.forEach(file -> {
-            overrideFeatureFiles(file, cTags);
-        });
+        listOfFiles.forEach(file -> overrideFeatureFiles(file, cTags));
     }
 
     private List<File> getAllFeatureFiles(String []featureFileFolder) {
