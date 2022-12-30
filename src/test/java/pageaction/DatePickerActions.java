@@ -150,7 +150,7 @@ public class DatePickerActions {
             while (!( pageLocator.leftMonthYearTitle.getText().equalsIgnoreCase(MonthYear) || pageLocator.rightMonthYearTitle.getText().equalsIgnoreCase(MonthYear))) {
                 pageLocator.getNextMonth.click();
             }
-            webDriver.findElement(By.xpath(pageLocator.selectDate.replace("CHECK_IN_DATE", FullDate))).click();
+            webDriver.findElement(By.xpath(pageLocator.selectDate.replace("CHECK_IN_OUT_DATE", FullDate))).click();
         });
 
     }

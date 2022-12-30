@@ -65,7 +65,7 @@ public class DatePickerLocators {
     @FindBy(xpath = "(//h2[@class='uitk-date-picker-month-name uitk-type-medium'])[2]")
     public WebElement rightMonthYearTitle;
 
-    public String selectDate="//button[@aria-label='CHECK_IN_DATE']";
+    public String selectDate="//button[@aria-label='CHECK_IN_OUT_DATE']";
 
     @FindBy(xpath = "//div[@class='uitk-layout-flex uitk-layout-flex-justify-content-space-between uitk-date-picker-menu-pagination-container']//button[2]")
     public WebElement getNextMonth;
