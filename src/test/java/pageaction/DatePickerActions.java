@@ -2,7 +2,9 @@ package pageaction;
 
 import locators.DatePickerLocators;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -12,6 +14,8 @@ import utils.SeleniumDriver;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DatePickerActions {
 
@@ -96,6 +100,55 @@ public class DatePickerActions {
     private void waitNsec(int n) {
         try {
             Thread.sleep(n * 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Below are for Experian Site
+
+    public void hideLoginModalExperian() {
+        new Actions(webDriver).sendKeys(Keys.ESCAPE).build().perform();
+    }
+
+    public void clickCheckInDateExperian() {
+        pageLocator.dateSelection.click();
+    }
+
+    public void selectCheckInCheckOutDate(String checkInDate, String checkOutDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+        LocalDate checkInLocalDate = LocalDate.parse(checkInDate,formatter);
+        LocalDate checkOutLocalDate = LocalDate.parse(checkOutDate,formatter);
+
+        if(checkInLocalDate.isBefore(LocalDate.now()) || checkInLocalDate.isAfter(LocalDate.now().plusMonths(16)) || checkOutLocalDate.isBefore(checkInLocalDate)){
+            Assert.fail("Check In Date/Check Out Date incorrect, Allowed Range is 16 months from today for check in/out");
+        }
+
+        String checkInMonthYear = Stream.of(checkInDate.split(" ")).filter(x -> !x.contains(",")).collect(Collectors.joining(" "));
+        String checkOutMonthYear = Stream.of(checkOutDate.split(" ")).filter(x -> !x.contains(",")).collect(Collectors.joining(" "));
+
+        checkInDate = Stream.of(checkInDate.split(" ")).map(x -> x.matches("^[a-zA-Z]*$") ? x.substring(0, 3) : x).collect(Collectors.joining(" "));
+
+        checkOutDate = Stream.of(checkOutDate.split(" ")).map(x -> x.matches("^[a-zA-Z]*$") ? x.substring(0, 3) : x).collect(Collectors.joining(" "));
+
+        while (!pageLocator.leftMonthYearTitle.getText().equalsIgnoreCase(checkInMonthYear)) {
+            pageLocator.getNextMonth.click();
+        }
+
+        webDriver.findElement(By.xpath(pageLocator.selectDate.replace("CHECK_IN_DATE", checkInDate))).click();
+
+        while (!( pageLocator.leftMonthYearTitle.getText().equalsIgnoreCase(checkOutMonthYear) || pageLocator.rightMonthYearTitle.getText().equalsIgnoreCase(checkOutMonthYear))) {
+            pageLocator.getNextMonth.click();
+        }
+
+        webDriver.findElement(By.xpath(pageLocator.selectDate.replace("CHECK_IN_DATE", checkOutDate))).click();
+
+    }
+
+    public void clickOkayButton() {
+        pageLocator.okButton.click();
+        try {
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

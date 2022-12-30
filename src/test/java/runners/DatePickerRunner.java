@@ -11,7 +11,7 @@ import io.cucumber.testng.CucumberOptions;
         "html:target/html-report/html-cucumber.html",
         "rerun:target/rerun.txt"
 }, monochrome = true, dryRun = false, glue = "stepdefs", features = {"src/test/resources/datepicker"},
-        tags = "@datepicker")
+        tags = "@experian")
 public class DatePickerRunner extends BaseRunnerBrowser {
 }
 

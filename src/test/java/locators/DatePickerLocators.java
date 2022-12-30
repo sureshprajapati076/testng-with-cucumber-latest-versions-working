@@ -51,4 +51,27 @@ public class DatePickerLocators {
     //  WebElement parentElement = driver.findElement(By.xpath("//div[@id='abc']));
     //  WebElement childElement = parentElement.findElements(By.xpath(".//div[@class='xyz']"));
 
+
+
+    //BELOW ARE FOR EXPERIAN SITE
+
+
+    @FindBy(xpath = "//button[@id='d1-btn']")
+    public WebElement dateSelection;
+
+    @FindBy(xpath = "(//h2[@class='uitk-date-picker-month-name uitk-type-medium'])[1]")
+    public WebElement leftMonthYearTitle;
+
+    @FindBy(xpath = "(//h2[@class='uitk-date-picker-month-name uitk-type-medium'])[2]")
+    public WebElement rightMonthYearTitle;
+
+    public String selectDate="//button[@aria-label='CHECK_IN_DATE']";
+
+    @FindBy(xpath = "//div[@class='uitk-layout-flex uitk-layout-flex-justify-content-space-between uitk-date-picker-menu-pagination-container']//button[2]")
+    public WebElement getNextMonth;
+
+    @FindBy(xpath = "//button[@class='uitk-button uitk-button-medium uitk-button-has-text uitk-button-primary']")
+    public WebElement okButton;
+
+
 }
