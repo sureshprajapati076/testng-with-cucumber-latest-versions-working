@@ -4,6 +4,7 @@ import locators.DatePickerLocators;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -146,11 +147,11 @@ public class DatePickerActions {
         dateMap.put(checkInDate,checkInMonthYear);
         dateMap.put(checkOutDate,checkOutMonthYear);
 
-        dateMap.forEach((FullDate,MonthYear)->{
-            while (!( pageLocator.leftMonthYearTitle.getText().equalsIgnoreCase(MonthYear) || pageLocator.rightMonthYearTitle.getText().equalsIgnoreCase(MonthYear))) {
+        dateMap.forEach((fullDate,monthYear)->{
+            while (pageLocator.monthYearTitle.stream().map(WebElement::getText).noneMatch(mmYYHeading -> mmYYHeading.equalsIgnoreCase(monthYear))) {
                 pageLocator.getNextMonth.click();
             }
-            webDriver.findElement(By.xpath(pageLocator.selectDate.replace("CHECK_IN_OUT_DATE", FullDate))).click();
+            webDriver.findElement(By.xpath(pageLocator.selectDate.replace("CHECK_IN_OUT_DATE", fullDate))).click();
         });
 
     }

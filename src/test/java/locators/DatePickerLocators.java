@@ -3,6 +3,8 @@ package locators;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 public class DatePickerLocators {
 
 
@@ -59,11 +61,8 @@ public class DatePickerLocators {
     @FindBy(xpath = "//button[@id='d1-btn']")
     public WebElement dateSelection;
 
-    @FindBy(xpath = "(//h2[@class='uitk-date-picker-month-name uitk-type-medium'])[1]")
-    public WebElement leftMonthYearTitle;
-
-    @FindBy(xpath = "(//h2[@class='uitk-date-picker-month-name uitk-type-medium'])[2]")
-    public WebElement rightMonthYearTitle;
+    @FindBy(xpath = "//h2[@class='uitk-date-picker-month-name uitk-type-medium']")
+    public List<WebElement> monthYearTitle;
 
     public String selectDate="//button[@aria-label='CHECK_IN_OUT_DATE']";
 
