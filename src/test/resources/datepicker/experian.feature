@@ -10,5 +10,9 @@ Feature: Date Picker Feature Experian
 
 
     Examples:
-      | homepage                | browser | departureDate  | returnDate        |
-      | https://www.expedia.com | chrome  | March 28, 2023 | December 21, 2023 |
+      | homepage                | browser | departureDate  | returnDate   |
+      | https://www.expedia.com | chrome  | May 02, 2024   | May 9, 2024  |
+#      | https://www.expedia.com | chrome  | May 02, 2024   | May 11, 2024 |
+#      | https://www.expedia.com | chrome  | May 2, 2024    | May 8, 2024  |
+#      | https://www.expedia.com | chrome  | May 2, 2024    | May 09, 2024 |
+      | https://www.expedia.com | chrome  | April 29, 2024 | May 09, 2024 |

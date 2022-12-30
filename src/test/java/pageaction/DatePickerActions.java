@@ -14,6 +14,8 @@ import utils.SeleniumDriver;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -116,32 +118,40 @@ public class DatePickerActions {
     }
 
     public void selectCheckInCheckOutDate(String checkInDate, String checkOutDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
         LocalDate checkInLocalDate = LocalDate.parse(checkInDate,formatter);
         LocalDate checkOutLocalDate = LocalDate.parse(checkOutDate,formatter);
 
-        if(checkInLocalDate.isBefore(LocalDate.now()) || checkInLocalDate.isAfter(LocalDate.now().plusMonths(16)) || checkOutLocalDate.isBefore(checkInLocalDate)){
-            Assert.fail("Check In Date/Check Out Date incorrect, Allowed Range is 16 months from today for check in/out");
+        if(checkInLocalDate.isBefore(LocalDate.now()) || checkInLocalDate.isAfter(LocalDate.now().plusMonths(17)) || checkOutLocalDate.isBefore(checkInLocalDate)){
+            Assert.fail("Check In Date/Check Out Date incorrect, Allowed Range is 17 months from today for check in/out");
         }
 
-        String checkInMonthYear = Stream.of(checkInDate.split(" ")).filter(x -> !x.contains(",")).collect(Collectors.joining(" "));
-        String checkOutMonthYear = Stream.of(checkOutDate.split(" ")).filter(x -> !x.contains(",")).collect(Collectors.joining(" "));
+        String checkInMonthYear = Stream.of(checkInDate.split(" "))
+                .filter(x -> !x.contains(","))
+                .collect(Collectors.joining(" "));
+        String checkOutMonthYear = Stream.of(checkOutDate.split(" "))
+                .filter(x -> !x.contains(","))
+                .collect(Collectors.joining(" "));
 
-        checkInDate = Stream.of(checkInDate.split(" ")).map(x -> x.matches("^[a-zA-Z]*$") ? x.substring(0, 3) : x).collect(Collectors.joining(" "));
+        checkInDate = Stream.of(checkInDate.split(" "))
+                .map(x -> x.matches("^[a-zA-Z]*$") ? x.substring(0, 3) : x) // using First three Chars for Month as per website
+                .map(x->x.startsWith("0")?x.replace("0",""):x) // for Day of month if user happen to enter 02 then it will remove 0, since xpath in website uses single digit for day representation
+                .collect(Collectors.joining(" "));
+        checkOutDate = Stream.of(checkOutDate.split(" "))
+                .map(x -> x.matches("^[a-zA-Z]*$") ? x.substring(0, 3) : x)
+                .map(x->x.startsWith("0")?x.replace("0",""):x)
+                .collect(Collectors.joining(" "));
 
-        checkOutDate = Stream.of(checkOutDate.split(" ")).map(x -> x.matches("^[a-zA-Z]*$") ? x.substring(0, 3) : x).collect(Collectors.joining(" "));
+        Map<String,String> dateMap = new LinkedHashMap<>();
+        dateMap.put(checkInDate,checkInMonthYear);
+        dateMap.put(checkOutDate,checkOutMonthYear);
 
-        while (!pageLocator.leftMonthYearTitle.getText().equalsIgnoreCase(checkInMonthYear)) {
-            pageLocator.getNextMonth.click();
-        }
-
-        webDriver.findElement(By.xpath(pageLocator.selectDate.replace("CHECK_IN_DATE", checkInDate))).click();
-
-        while (!( pageLocator.leftMonthYearTitle.getText().equalsIgnoreCase(checkOutMonthYear) || pageLocator.rightMonthYearTitle.getText().equalsIgnoreCase(checkOutMonthYear))) {
-            pageLocator.getNextMonth.click();
-        }
-
-        webDriver.findElement(By.xpath(pageLocator.selectDate.replace("CHECK_IN_DATE", checkOutDate))).click();
+        dateMap.forEach((FullDate,MonthYear)->{
+            while (!( pageLocator.leftMonthYearTitle.getText().equalsIgnoreCase(MonthYear) || pageLocator.rightMonthYearTitle.getText().equalsIgnoreCase(MonthYear))) {
+                pageLocator.getNextMonth.click();
+            }
+            webDriver.findElement(By.xpath(pageLocator.selectDate.replace("CHECK_IN_DATE", FullDate))).click();
+        });
 
     }
 
