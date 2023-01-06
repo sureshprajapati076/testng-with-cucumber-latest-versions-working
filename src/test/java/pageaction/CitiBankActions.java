@@ -11,14 +11,13 @@ public class CitiBankActions {
     WebDriver webDriver;
     CitiBankLocators pageLocator;
 
-    private void setUpDriver(String browser){
-        SeleniumDriver.setupDriver(browser);
+    public CitiBankActions() {
         webDriver = SeleniumDriver.getDriver();
         pageLocator = new CitiBankLocators();
         PageFactory.initElements(webDriver, pageLocator);
     }
+
     public void openUrl(String url, String browser) {
-        setUpDriver(browser);
         webDriver.get(url);
         waitNsec(30);
         SeleniumDriver.takeScreenshot();
@@ -37,11 +36,12 @@ public class CitiBankActions {
         performSendKeys(pageLocator.brokrgeAccNumValue, acctNo);
     }
 
-    private void performClick(WebElement element){
+    private void performClick(WebElement element) {
         waitNsec(2);
         element.click();
     }
-    private void performSendKeys(WebElement element, String value){
+
+    private void performSendKeys(WebElement element, String value) {
         waitNsec(2);
         element.sendKeys(value);
     }
@@ -50,9 +50,9 @@ public class CitiBankActions {
         performClick(pageLocator.continueButton);
     }
 
-    private void waitNsec(int n){
+    private void waitNsec(int n) {
         try {
-            Thread.sleep(n*1000);
+            Thread.sleep(n * 1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

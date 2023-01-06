@@ -16,15 +16,15 @@ import java.time.LocalDateTime;
 
 public class SeleniumWebDriver_EasyVersion {
 
-    public static ThreadLocal<WebDriver> threadLocal =  new ThreadLocal<>();
+    public static ThreadLocal<WebDriver> threadLocal = new ThreadLocal<>();
 
-    private SeleniumWebDriver_EasyVersion(){
+    private SeleniumWebDriver_EasyVersion() {
 
     }
 
-    public static WebDriver getDriver(){
-        if(threadLocal.get()==null){
-            WebDriver webDriver=new ChromeDriver();
+    public static WebDriver getDriver() {
+        if (threadLocal.get() == null) {
+            WebDriver webDriver = new ChromeDriver();
             webDriver.manage().window().maximize();
             webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
             threadLocal.set(webDriver);
@@ -32,8 +32,8 @@ public class SeleniumWebDriver_EasyVersion {
         return threadLocal.get();
     }
 
-    public static void quitDriver(){
-        if(threadLocal.get()!=null) {
+    public static void quitDriver() {
+        if (threadLocal.get() != null) {
             threadLocal.get().quit();
             threadLocal.set(null);
         }

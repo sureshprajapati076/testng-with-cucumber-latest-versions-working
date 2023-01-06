@@ -8,5 +8,5 @@ Feature: YouTube Feature Dec 2022
     Then Verify user sees results
 
     Examples:
-      | homepage            | searchText  |
+      | homepage | searchText |
       #@#@GOLD

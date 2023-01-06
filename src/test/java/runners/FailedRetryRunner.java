@@ -11,11 +11,11 @@ import stepdefs.RetrySteps;
         "json:target/cucumber-report1/cucumber.json",
         "rerun:target/rerun.txt"
 }, monochrome = true, dryRun = false, glue = "stepdefs", features = "@target/rerun.txt"
-        )
+)
 public class FailedRetryRunner extends AbstractTestNGCucumberTests {
 
-    public FailedRetryRunner(){
-        RetrySteps.forceFailStep=false;
+    public FailedRetryRunner() {
+        RetrySteps.forceFailStep = false;
     }
 
     @Override

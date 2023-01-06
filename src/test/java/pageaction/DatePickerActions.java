@@ -25,15 +25,13 @@ public class DatePickerActions {
     WebDriver webDriver;
     DatePickerLocators pageLocator;
 
-    private void setUpDriver(String browser) {
-        SeleniumDriver.setupDriver(browser);
+    public DatePickerActions() {
         webDriver = SeleniumDriver.getDriver();
         pageLocator = new DatePickerLocators();
         PageFactory.initElements(webDriver, pageLocator);
     }
 
     public void openUrl(String url, String browser) {
-        setUpDriver(browser);
         webDriver.get(url);
         waitNsec(3);
     }
@@ -120,10 +118,10 @@ public class DatePickerActions {
 
     public void selectCheckInCheckOutDate(String checkInDate, String checkOutDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
-        LocalDate checkInLocalDate = LocalDate.parse(checkInDate,formatter);
-        LocalDate checkOutLocalDate = LocalDate.parse(checkOutDate,formatter);
+        LocalDate checkInLocalDate = LocalDate.parse(checkInDate, formatter);
+        LocalDate checkOutLocalDate = LocalDate.parse(checkOutDate, formatter);
 
-        if(checkInLocalDate.isBefore(LocalDate.now()) || checkInLocalDate.isAfter(LocalDate.now().plusMonths(17)) || checkOutLocalDate.isBefore(checkInLocalDate)){
+        if (checkInLocalDate.isBefore(LocalDate.now()) || checkInLocalDate.isAfter(LocalDate.now().plusMonths(17)) || checkOutLocalDate.isBefore(checkInLocalDate)) {
             Assert.fail("Check In Date/Check Out Date incorrect, Allowed Range is 17 months from today for check in/out");
         }
 
@@ -136,18 +134,18 @@ public class DatePickerActions {
 
         checkInDate = Stream.of(checkInDate.split(" "))
                 .map(x -> x.matches("^[a-zA-Z]*$") ? x.substring(0, 3) : x) // using First three Chars for Month as per website
-                .map(x->x.startsWith("0")?x.replace("0",""):x) // for Day of month if user happen to enter 02 then it will remove 0, since xpath in website uses single digit for day representation
+                .map(x -> x.startsWith("0") ? x.replace("0", "") : x) // for Day of month if user happen to enter 02 then it will remove 0, since xpath in website uses single digit for day representation
                 .collect(Collectors.joining(" "));
         checkOutDate = Stream.of(checkOutDate.split(" "))
                 .map(x -> x.matches("^[a-zA-Z]*$") ? x.substring(0, 3) : x)
-                .map(x->x.startsWith("0")?x.replace("0",""):x)
+                .map(x -> x.startsWith("0") ? x.replace("0", "") : x)
                 .collect(Collectors.joining(" "));
 
-        Map<String,String> dateMap = new LinkedHashMap<>();
-        dateMap.put(checkInDate,checkInMonthYear);
-        dateMap.put(checkOutDate,checkOutMonthYear);
+        Map<String, String> dateMap = new LinkedHashMap<>();
+        dateMap.put(checkInDate, checkInMonthYear);
+        dateMap.put(checkOutDate, checkOutMonthYear);
 
-        dateMap.forEach((fullDate,monthYear)->{
+        dateMap.forEach((fullDate, monthYear) -> {
             while (pageLocator.monthYearTitle.stream().map(WebElement::getText).noneMatch(mmYYHeading -> mmYYHeading.equalsIgnoreCase(monthYear))) {
                 pageLocator.getNextMonth.click();
             }

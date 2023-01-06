@@ -13,15 +13,13 @@ public class FaceBookActions {
     WebDriver webDriver;
     FaceBookLocators pageLocator;
 
-    private void setUpDriver(String browser){
-        SeleniumDriver.setupDriver(browser);
+    public FaceBookActions() {
         webDriver = SeleniumDriver.getDriver();
         pageLocator = new FaceBookLocators();
         PageFactory.initElements(webDriver, pageLocator);
     }
 
-    public void openUrl(String url,String browser) {
-        setUpDriver(browser);
+    public void openUrl(String url, String browser) {
         webDriver.get(url);
         SeleniumDriver.takeScreenshot();
         SeleniumDriver.attachScreenshotToReport("HomePage");
@@ -41,7 +39,7 @@ public class FaceBookActions {
         mySelect.selectByVisibleText("Jul");
         SeleniumDriver.takeScreenshot();
         Capabilities cap = ((RemoteWebDriver) webDriver).getCapabilities();
-        System.out.println("BROWSER NAME: "+cap.getBrowserName());
+        System.out.println("BROWSER NAME: " + cap.getBrowserName());
         Assert.assertTrue(true);
     }
 }

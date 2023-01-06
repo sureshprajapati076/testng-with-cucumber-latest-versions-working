@@ -8,9 +8,9 @@ Feature: YouTube Feature Dec 2022
     Then Verify user sees results
 
     Examples:
-      | homepage | searchText |
+      | homepage            | searchText  |
       #@#@GOLD
-      |https://youtube.com|Electronics|
+      | https://youtube.com | Electronics |
       #|https://youtube.com|Electronics|
 
   @youtube91
@@ -21,9 +21,9 @@ Feature: YouTube Feature Dec 2022
     Then Verify user sees results
 
     Examples:
-      | homepage | searchText |
+      | homepage            | searchText  |
       #@#@GOLD
-|https://youtube.com|Electronics|
+      | https://youtube.com | Electronics |
 
   @youtube90
   Scenario Outline: Search text Automation in youtube
@@ -33,7 +33,7 @@ Feature: YouTube Feature Dec 2022
     Then Verify user sees results
 
     Examples:
-      | homepage | searchText |
+      | homepage            | searchText |
       #@#@GOLD
-      |https://youtube.com|Automation|
-      |https://youtube.com|lastRow|
+      | https://youtube.com | Automation |
+      | https://youtube.com | lastRow    |

@@ -14,16 +14,16 @@ public class FbSignupSteps {
     public static Scenario scenario;
 
     @Before
-    public void setUpScenario(Scenario scenario){
-        FbSignupSteps.scenario =scenario;
+    public void setUpScenario(Scenario scenario) {
+        FbSignupSteps.scenario = scenario;
     }
 
     @Given("User is in facebook {string} homepage in {string}")
     public void user_is_in_facebook_homepage(String url, String browser) {
         // Write code here that turns the phrase above into concrete actions
 
-        pageAction.openUrl(url,browser);
-   //     Assert.fail();
+        pageAction.openUrl(url, browser);
+        //     Assert.fail();
 
     }
 

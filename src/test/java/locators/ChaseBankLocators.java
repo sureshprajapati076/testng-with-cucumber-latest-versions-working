@@ -13,7 +13,7 @@ public class ChaseBankLocators {
     @FindBy(css = "#existingChaseCustomerOptionId")
     public WebElement shadow;
 
-    @FindBy(css ="#NEXT-nav-ctr-btn")
+    @FindBy(css = "#NEXT-nav-ctr-btn")
     public WebElement nextButton;
 
 }

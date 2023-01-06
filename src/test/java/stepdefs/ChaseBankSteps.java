@@ -9,23 +9,27 @@ public class ChaseBankSteps {
 
     @Given("User is in home chase home page {string} in {string}")
     public void user_is_in_home_chase_home_page_in(String url, String browser) {
-        actions.openUrl(url,browser);
+        actions.openUrl(url, browser);
     }
+
     @And("User clicks Premium option")
     public void user_clicks_premium_option() {
-       actions.selectPremium();
+        actions.selectPremium();
     }
+
     @And("User clicks Open Now")
     public void user_clicks_open_now() {
-       actions.clickOpenNow();
+        actions.clickOpenNow();
     }
+
     @And("User clicks No in existing customer")
     public void user_clicks_no_in_existing_customer() {
-      actions.clickNonExistingCustomer();
+        actions.clickNonExistingCustomer();
     }
+
     @And("User clicks Next button")
     public void user_clicks_next_button() {
-      actions.clickNextButton();
+        actions.clickNextButton();
     }
 
 }

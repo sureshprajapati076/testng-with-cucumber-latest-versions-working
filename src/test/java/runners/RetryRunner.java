@@ -13,8 +13,8 @@ import stepdefs.RetrySteps;
         tags = "@Retry")
 public class RetryRunner extends AbstractTestNGCucumberTests {
 
-    public RetryRunner(){
-        RetrySteps.forceFailStep=true;
+    public RetryRunner() {
+        RetrySteps.forceFailStep = true;
     }
 
     @Override

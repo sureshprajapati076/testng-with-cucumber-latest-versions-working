@@ -56,7 +56,7 @@ public class SeleniumDriver {
     public static void closeDriver() {
 
         if (threadLocalDriver.get() != null) {
-           // getDriver().close();
+            // getDriver().close();
             getDriver().quit();
             threadLocalDriver.set(null);
         }
@@ -67,7 +67,7 @@ public class SeleniumDriver {
         boolean headlessOption = Boolean.parseBoolean(System.getProperty("headless"));
         WebDriver webDriver;
 
-        if(PropertiesReaderUtils.getFieldValue("remoteSeleniumEnabled").equalsIgnoreCase("true")) {
+        if (PropertiesReaderUtils.getFieldValue("remoteSeleniumEnabled").equalsIgnoreCase("true")) {
             if (browser.equalsIgnoreCase("chrome")) {
                 ChromeOptions options = new ChromeOptions();
                 options.setPlatformName(Platform.LINUX.name());
@@ -93,7 +93,7 @@ public class SeleniumDriver {
                 webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
                 webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
             }
-        }else{
+        } else {
             ChromeOptions options = new ChromeOptions();
             options.setHeadless(headlessOption);
             webDriver = new ChromeDriver(options);

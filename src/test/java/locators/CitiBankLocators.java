@@ -6,24 +6,23 @@ import org.openqa.selenium.support.FindBy;
 public class CitiBankLocators {
 
 
-    @FindBy(id="register_acc")
+    @FindBy(id = "register_acc")
     public WebElement registerAccount;
 
-    @FindBy(id="brokrgeAccNumLabel")
+    @FindBy(id = "brokrgeAccNumLabel")
     public WebElement brokerageAcctNoOption;
 
-    @FindBy(id="brokrgeAccNumValue")
+    @FindBy(id = "brokrgeAccNumValue")
     public WebElement brokrgeAccNumValue;
 
-    @FindBy(xpath="//button[text()='Continue Set Up']")
+    @FindBy(xpath = "//button[text()='Continue Set Up']")
     public WebElement continueButton;
 
-    @FindBy(id="txtlastFourSSNDigit")
+    @FindBy(id = "txtlastFourSSNDigit")
     public WebElement ssnNumber;
 
-    @FindBy(xpath="//input[@name='DOBValue']")
+    @FindBy(xpath = "//input[@name='DOBValue']")
     public WebElement dobValue;
-
 
 
 }

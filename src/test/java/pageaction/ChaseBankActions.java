@@ -13,14 +13,13 @@ public class ChaseBankActions {
     WebDriver webDriver;
     ChaseBankLocators pageLocator;
 
-    private void setUpDriver(String browser){
-        SeleniumDriver.setupDriver(browser);
+    public ChaseBankActions() {
         webDriver = SeleniumDriver.getDriver();
         pageLocator = new ChaseBankLocators();
         PageFactory.initElements(webDriver, pageLocator);
     }
+
     public void openUrl(String url, String browser) {
-        setUpDriver(browser);
         webDriver.get(url);
         waitNsec(2);
         SeleniumDriver.takeScreenshot();
@@ -43,15 +42,15 @@ public class ChaseBankActions {
     }
 
     public void clickNextButton() {
-        SearchContext shadow=pageLocator.nextButton.getShadowRoot();
+        SearchContext shadow = pageLocator.nextButton.getShadowRoot();
         waitNsec(3);
         shadow.findElement(By.cssSelector(".button__label")).click();
         waitNsec(10);
     }
 
-    private void waitNsec(long n){
+    private void waitNsec(long n) {
         try {
-            Thread.sleep(n*1000);
+            Thread.sleep(n * 1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

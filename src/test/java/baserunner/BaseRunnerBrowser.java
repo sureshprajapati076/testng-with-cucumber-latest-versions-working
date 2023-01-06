@@ -9,11 +9,19 @@ import org.testng.annotations.DataProvider;
 import utils.ExcelReaderUtils;
 import utils.ScenarioDTO;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -22,19 +30,19 @@ public class BaseRunnerBrowser extends AbstractTestNGCucumberTests {
     public void beforeSuite(ITestContext itc) {
         CucumberOptions options = itc.getSuite().getAllMethods().listIterator().next().getTestClass().getRealClass().getAnnotation(CucumberOptions.class);
         String cukeTags = options.tags();
-        String []featureFileFolder = options.features();
+        String[] featureFileFolder = options.features();
 
         List<String> cTags = Arrays.asList(cukeTags.split(" ")).stream().filter(tag -> tag.trim().startsWith("@")).collect(Collectors.toList());
         List<File> listOfFiles = getAllFeatureFiles(featureFileFolder);
         listOfFiles.forEach(file -> overrideFeatureFiles(file, cTags));
     }
 
-    private List<File> getAllFeatureFiles(String []featureFileFolder) {
+    private List<File> getAllFeatureFiles(String[] featureFileFolder) {
         Collection<File> filesList;
-        List<File> fileList=new ArrayList<>();
-        for(String featureFolder: featureFileFolder) {
-             filesList = FileUtils.listFiles(new File(featureFolder), new String[]{"feature"}, true);
-             fileList.addAll(filesList);
+        List<File> fileList = new ArrayList<>();
+        for (String featureFolder : featureFileFolder) {
+            filesList = FileUtils.listFiles(new File(featureFolder), new String[]{"feature"}, true);
+            fileList.addAll(filesList);
         }
         return fileList;
     }
