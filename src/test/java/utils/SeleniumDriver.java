@@ -2,15 +2,9 @@ package utils;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.asserts.SoftAssert;
 import stepdefs.CommonActions;
 
 import java.io.File;
@@ -22,86 +16,28 @@ import java.time.LocalDateTime;
 
 public class SeleniumDriver {
 
-    private static final ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
-    private static final ThreadLocal<SoftAssert> threadLocalSoftAssert = new ThreadLocal<>();
+    private static final ThreadLocal<WebDriver> threadLocal = new ThreadLocal<>();
 
-    public static void setUpSoftAssert() {
-        if (getSoftAssert() == null) {
-            threadLocalSoftAssert.set(new SoftAssert());
+    private SeleniumDriver() {
+
+    }
+    public static void setupDriver(String browser) {
+        if (threadLocal.get() == null) {
+            WebDriver webDriver = new ChromeDriver();
+            webDriver.manage().window().maximize();
+            webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+            threadLocal.set(webDriver);
         }
     }
-
-    public static SoftAssert getSoftAssert() {
-        return threadLocalSoftAssert.get();
-    }
-
-    public static void quitSoftAssert() {
-        threadLocalSoftAssert.set(null);
-    }
-
-
-    private SeleniumDriver(String browser) {
-        WebDriver webDriver1 = createDriver(browser);
-        threadLocalDriver.set(webDriver1);
-    }
-
-    public static WebDriver getDriver() {
-        return threadLocalDriver.get();
-    }
-
-    public static void setupDriver(String browser) {
-        if (getDriver() == null) new SeleniumDriver(browser);
+    public static WebDriver getDriver(){
+        return threadLocal.get();
     }
 
     public static void closeDriver() {
-
-        if (threadLocalDriver.get() != null) {
-            // getDriver().close();
-            getDriver().quit();
-            threadLocalDriver.set(null);
+        if (threadLocal.get() != null) {
+            threadLocal.get().quit();
+            threadLocal.set(null);
         }
-    }
-
-
-    private WebDriver createDriver(String browser) {
-        boolean headlessOption = Boolean.parseBoolean(System.getProperty("headless"));
-        WebDriver webDriver;
-
-        if (PropertiesReaderUtils.getFieldValue("remoteSeleniumEnabled").equalsIgnoreCase("true")) {
-            if (browser.equalsIgnoreCase("chrome")) {
-                ChromeOptions options = new ChromeOptions();
-                options.setPlatformName(Platform.LINUX.name());
-                options.setHeadless(headlessOption);
-                webDriver = new RemoteWebDriver(options);
-                webDriver.manage().window().maximize();
-                webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
-                webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
-            } else if (browser.equalsIgnoreCase("edge")) {
-                EdgeOptions options = new EdgeOptions();
-                options.setPlatformName(Platform.LINUX.name());
-                options.setHeadless(headlessOption);
-                webDriver = new RemoteWebDriver(options);
-                webDriver.manage().window().maximize();
-                webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
-                webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
-            } else {
-                FirefoxOptions options = new FirefoxOptions();
-                options.setPlatformName(Platform.LINUX.name());
-                options.setHeadless(headlessOption);
-                webDriver = new RemoteWebDriver(options);
-                webDriver.manage().window().maximize();
-                webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
-                webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
-            }
-        } else {
-            ChromeOptions options = new ChromeOptions();
-            options.setHeadless(headlessOption);
-            webDriver = new ChromeDriver(options);
-            webDriver.manage().window().maximize();
-            webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
-            webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
-        }
-        return webDriver;
     }
 
     public static void attachScreenshotToReport(String name) {
@@ -135,4 +71,5 @@ public class SeleniumDriver {
             ex2.printStackTrace();
         }
     }
+
 }
