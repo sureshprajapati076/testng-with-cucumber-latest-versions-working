@@ -21,13 +21,13 @@ import java.time.LocalDateTime;
 
 public class SeleniumDriver {
 
-    private static final ThreadLocal<WebDriver> threadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<WebDriver> threadLocalWebDriver = new ThreadLocal<>();
 
     private SeleniumDriver() {
 
     }
     public static void setupDriver(String browser, boolean headlessOption) {
-        if (threadLocal.get() == null) {
+        if (threadLocalWebDriver.get() == null) {
             WebDriver webDriver;
             if (PropertiesReaderUtils.getFieldValue("remoteSeleniumEnabled").equalsIgnoreCase("true")) {
                 if (browser.equalsIgnoreCase("chrome")) {
@@ -63,17 +63,17 @@ public class SeleniumDriver {
                 webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
                 webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
             }
-            threadLocal.set(webDriver);
+            threadLocalWebDriver.set(webDriver);
         }
     }
     public static WebDriver getDriver(){
-        return threadLocal.get();
+        return threadLocalWebDriver.get();
     }
 
     public static void closeDriver() {
-        if (threadLocal.get() != null) {
-            threadLocal.get().quit();
-            threadLocal.set(null);
+        if (threadLocalWebDriver.get() != null) {
+            threadLocalWebDriver.get().quit();
+            threadLocalWebDriver.set(null);
         }
     }
 
