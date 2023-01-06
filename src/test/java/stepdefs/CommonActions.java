@@ -16,7 +16,7 @@ public class CommonActions {
     @Before
     public void setUpScenario(Scenario scenario) {
         scenarioThreadLocal.set(scenario);
-        SeleniumDriver.setupDriver(PropertiesReaderUtils.getFieldValue("browserName"));
+        SeleniumDriver.setupDriver(PropertiesReaderUtils.getFieldValue("browserName"),Boolean.parseBoolean(PropertiesReaderUtils.getFieldValue("headless")));
     }
 
     @AfterStep

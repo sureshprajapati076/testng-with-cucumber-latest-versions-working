@@ -2,9 +2,14 @@ package utils;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import stepdefs.CommonActions;
 
 import java.io.File;
@@ -21,11 +26,43 @@ public class SeleniumDriver {
     private SeleniumDriver() {
 
     }
-    public static void setupDriver(String browser) {
+    public static void setupDriver(String browser, boolean headlessOption) {
         if (threadLocal.get() == null) {
-            WebDriver webDriver = new ChromeDriver();
-            webDriver.manage().window().maximize();
-            webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+            WebDriver webDriver;
+            if (PropertiesReaderUtils.getFieldValue("remoteSeleniumEnabled").equalsIgnoreCase("true")) {
+                if (browser.equalsIgnoreCase("chrome")) {
+                    ChromeOptions options = new ChromeOptions();
+                    options.setPlatformName(Platform.LINUX.name());
+                    options.setHeadless(headlessOption);
+                    webDriver = new RemoteWebDriver(options);
+                    webDriver.manage().window().maximize();
+                    webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
+                    webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
+                } else if (browser.equalsIgnoreCase("edge")) {
+                    EdgeOptions options = new EdgeOptions();
+                    options.setPlatformName(Platform.LINUX.name());
+                    options.setHeadless(headlessOption);
+                    webDriver = new RemoteWebDriver(options);
+                    webDriver.manage().window().maximize();
+                    webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
+                    webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
+                } else {
+                    FirefoxOptions options = new FirefoxOptions();
+                    options.setPlatformName(Platform.LINUX.name());
+                    options.setHeadless(headlessOption);
+                    webDriver = new RemoteWebDriver(options);
+                    webDriver.manage().window().maximize();
+                    webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
+                    webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
+                }
+            } else {
+                ChromeOptions options = new ChromeOptions();
+                options.setHeadless(headlessOption);
+                webDriver = new ChromeDriver(options);
+                webDriver.manage().window().maximize();
+                webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
+                webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
+            }
             threadLocal.set(webDriver);
         }
     }
