@@ -4,6 +4,9 @@ import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 import utils.PropertiesReaderUtils;
 import utils.SeleniumDriver;
 
@@ -30,4 +33,15 @@ public class CommonActions {
     public void quitDriver() {
         SeleniumDriver.closeDriver();
     }
+
+    public static void performClick(WebElement element){
+        Actions actions = new Actions(SeleniumDriver.getDriver());
+        actions.moveToElement(element).click().build().perform();
+    }
+
+    public static void performSendKeys(WebElement element, String value){
+        Actions actions = new Actions(SeleniumDriver.getDriver());
+        actions.moveToElement(element).click().sendKeys(value).build().perform();
+    }
+
 }

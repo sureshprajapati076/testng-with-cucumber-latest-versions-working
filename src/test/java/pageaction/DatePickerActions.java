@@ -10,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import stepdefs.CommonActions;
 import utils.SeleniumDriver;
 
 import java.time.Duration;
@@ -41,11 +42,11 @@ public class DatePickerActions {
     }
 
     public void clickRoundTrip() {
-        pageLocator.roundTrip.click();
+        CommonActions.performClick(pageLocator.roundTrip);
     }
 
     public void clickDepartureDate() {
-        pageLocator.departureDate.click();
+        CommonActions.performClick(pageLocator.departureDate);
     }
 
     public void selectDepartureAndReturnDate(String departureDate, String returnDate) {
@@ -68,13 +69,13 @@ public class DatePickerActions {
         while (true) {
             waitNsec(1);
             if (pageLocator.rightMonthYearHeading.getText().equalsIgnoreCase(dateDeparture)) {
-                webDriver.findElement(By.xpath(pageLocator.rightDayPickerDay.replace("DAYOFMONTH", depDay))).click();
+                CommonActions.performClick(webDriver.findElement(By.xpath(pageLocator.rightDayPickerDay.replace("DAYOFMONTH", depDay))));
                 break;
             } else if (pageLocator.leftMonthYearHeading.getText().equalsIgnoreCase(dateDeparture)) {
-                webDriver.findElement(By.xpath(pageLocator.leftDayPickerDay.replace("DAYOFMONTH", depDay))).click();
+                CommonActions.performClick(webDriver.findElement(By.xpath(pageLocator.leftDayPickerDay.replace("DAYOFMONTH", depDay))));
                 break;
             }
-            pageLocator.nextMonth.click();
+            CommonActions.performClick(pageLocator.nextMonth);
         }
 
 
@@ -82,23 +83,23 @@ public class DatePickerActions {
         while (true) {
             waitNsec(1);
             if (pageLocator.rightMonthYearHeading.getText().equalsIgnoreCase(dateReturn)) {
-                webDriver.findElement(By.xpath(pageLocator.rightDayPickerDay.replace("DAYOFMONTH", retDay))).click();
+                CommonActions.performClick(webDriver.findElement(By.xpath(pageLocator.rightDayPickerDay.replace("DAYOFMONTH", retDay))));
                 break;
             } else if (pageLocator.leftMonthYearHeading.getText().equalsIgnoreCase(dateReturn)) {
-                webDriver.findElement(By.xpath(pageLocator.leftDayPickerDay.replace("DAYOFMONTH", retDay))).click();
+                CommonActions.performClick(webDriver.findElement(By.xpath(pageLocator.leftDayPickerDay.replace("DAYOFMONTH", retDay))));
                 break;
             }
-            pageLocator.nextMonth.click();
+            CommonActions.performClick(pageLocator.nextMonth);
         }
     }
 
     public void clickSearchButton() {
         SeleniumDriver.takeScreenshot();
-        pageLocator.searchButton.click();
+        CommonActions.performClick(pageLocator.searchButton);
         waitNsec(3);
     }
 
-    private void waitNsec(int n) {
+    private void waitNsec(long n) {
         try {
             Thread.sleep(n * 1000);
         } catch (InterruptedException e) {
@@ -113,7 +114,7 @@ public class DatePickerActions {
     }
 
     public void clickCheckInDateExperian() {
-        pageLocator.dateSelection.click();
+        CommonActions.performClick(pageLocator.dateSelection);
     }
 
     public void selectCheckInCheckOutDate(String checkInDate, String checkOutDate) {
@@ -147,15 +148,15 @@ public class DatePickerActions {
 
         dateMap.forEach((fullDate, monthYear) -> {
             while (pageLocator.monthYearTitle.stream().map(WebElement::getText).noneMatch(mmYYHeading -> mmYYHeading.equalsIgnoreCase(monthYear))) {
-                pageLocator.getNextMonth.click();
+                CommonActions.performClick(pageLocator.getNextMonth);
             }
-            webDriver.findElement(By.xpath(pageLocator.selectDate.replace("CHECK_IN_OUT_DATE", fullDate))).click();
+            CommonActions.performClick(webDriver.findElement(By.xpath(pageLocator.selectDate.replace("CHECK_IN_OUT_DATE", fullDate))));
         });
 
     }
 
     public void clickOkayButton() {
-        pageLocator.okButton.click();
+        CommonActions.performClick(pageLocator.okButton);
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
