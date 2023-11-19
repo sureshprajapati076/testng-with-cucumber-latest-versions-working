@@ -68,8 +68,8 @@ public class SeleniumDriver {
                 // options
                 webDriver = new ChromeDriver(options);
                 webDriver.manage().window().maximize();
-                webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
-                webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
+                webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(120));
+                webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120));
             }
             threadLocalWebDriver.set(webDriver);
         }
@@ -106,7 +106,7 @@ public class SeleniumDriver {
         File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
 
         try {
-            String fileName = "output-screenshots/Screenshot_" + LocalDateTime.now().toString().replace(":", "-") + ".png";
+            String fileName = "output-screenshots/Screenshot_" + LocalDateTime.now().toString().replaceAll("[:.]", "-") + ".png";
             FileUtils.copyFile(scrFile, new File(fileName));
 
             //if we need to attach file to scenario for reporting.
