@@ -6,7 +6,7 @@ Feature: Digital Delivery
     When User provides valid "<ssn>" and clicks Next
     And User clicks Send Code
     And User enters valid otp "<otp>" and clicks Next
-    Then ser sees Credit Card Details
+    Then User sees Credit Card Details
 
 
     Examples:
