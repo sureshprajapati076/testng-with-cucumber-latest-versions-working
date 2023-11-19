@@ -17,7 +17,7 @@ for tags use below Now after updating versions:
 
  OR
 
-  mvn clean -D"cucumber.filter.tags"="@youtube" -D"buildrunner"="YoutubeRunner.java" verify
+  mvn clean -D"cucumber.filter.tags"="@DigitalDelivery" -D"buildrunner"="DigitalDeliveryRunner.java" verify
 
   For above buildrunner variable we need to add: in  pom.xml
 

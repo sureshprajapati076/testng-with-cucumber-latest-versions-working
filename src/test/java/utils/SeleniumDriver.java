@@ -33,7 +33,7 @@ public class SeleniumDriver {
                 if (browser.equalsIgnoreCase("chrome")) {
                     ChromeOptions options = new ChromeOptions();
                     options.setPlatformName(Platform.LINUX.name());
-                    options.setHeadless(headlessOption);
+                   // options.setHeadless(headlessOption);
                     webDriver = new RemoteWebDriver(options);
                     webDriver.manage().window().maximize();
                     webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
@@ -41,7 +41,7 @@ public class SeleniumDriver {
                 } else if (browser.equalsIgnoreCase("edge")) {
                     EdgeOptions options = new EdgeOptions();
                     options.setPlatformName(Platform.LINUX.name());
-                    options.setHeadless(headlessOption);
+                   // options.setHeadless(headlessOption);
                     webDriver = new RemoteWebDriver(options);
                     webDriver.manage().window().maximize();
                     webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
@@ -49,7 +49,7 @@ public class SeleniumDriver {
                 } else {
                     FirefoxOptions options = new FirefoxOptions();
                     options.setPlatformName(Platform.LINUX.name());
-                    options.setHeadless(headlessOption);
+                   // options.setHeadless(headlessOption);
                     webDriver = new RemoteWebDriver(options);
                     webDriver.manage().window().maximize();
                     webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
@@ -57,7 +57,15 @@ public class SeleniumDriver {
                 }
             } else {
                 ChromeOptions options = new ChromeOptions();
-                options.setHeadless(headlessOption);
+
+//                options.addArguments("--headless");
+
+
+
+
+               // options.addArguments("--headless=new");
+
+                // options
                 webDriver = new ChromeDriver(options);
                 webDriver.manage().window().maximize();
                 webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
@@ -73,7 +81,7 @@ public class SeleniumDriver {
     public static void closeDriver() {
         if (threadLocalWebDriver.get() != null) {
             threadLocalWebDriver.get().quit();
-            threadLocalWebDriver.set(null);
+            threadLocalWebDriver.remove();
         }
     }
 

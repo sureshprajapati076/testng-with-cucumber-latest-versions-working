@@ -25,14 +25,14 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class BaseRunnerBrowser extends AbstractTestNGCucumberTests {
+public class BaseRunnerBrowserTest extends AbstractTestNGCucumberTests {
     @BeforeSuite
     public void beforeSuite(ITestContext itc) {
         CucumberOptions options = itc.getSuite().getAllMethods().listIterator().next().getTestClass().getRealClass().getAnnotation(CucumberOptions.class);
         String cukeTags = options.tags();
         String[] featureFileFolder = options.features();
 
-        List<String> cTags = Arrays.asList(cukeTags.split(" ")).stream().filter(tag -> tag.trim().startsWith("@")).collect(Collectors.toList());
+        List<String> cTags = Arrays.stream(cukeTags.split(" ")).filter(tag -> tag.trim().startsWith("@")).collect(Collectors.toList());
         List<File> listOfFiles = getAllFeatureFiles(featureFileFolder);
         listOfFiles.forEach(file -> overrideFeatureFiles(file, cTags));
     }
@@ -142,7 +142,7 @@ public class BaseRunnerBrowser extends AbstractTestNGCucumberTests {
     }
 
     @Override
-    @DataProvider(parallel = true)
+    @DataProvider(parallel = false)
     public Object[][] scenarios() {
         return super.scenarios();
     }
